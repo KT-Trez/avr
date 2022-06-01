@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "electron": "^16.0.7",
+    "moment": "^2.29.1",
+    "yt-search": "^2.10.3",
+    "ytdl-core": "^4.11.0"
+  },
+  "description": "Core of yt_downloader app.",
+  "main": "dist/core.js",
+  "name": "yt_downloader_core",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "electron-dev": "electron --trace-warnings ."
+  }
+}

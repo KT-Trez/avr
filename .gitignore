@@ -1,0 +1,16 @@
+# editors
+/.idea
+
+# dependencies
+/client/node_modules
+/client/package-lock.json
+
+/electron/node_modules
+/electron/package-lock.json
+
+/node_modules
+/package-lock.json
+
+# production
+/client/build
+/electron/dist

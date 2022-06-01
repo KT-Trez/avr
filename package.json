@@ -1,0 +1,26 @@
+{
+  "author": {
+    "name": "Bartlomiej 'Trez' Was",
+    "email": "bartlomiej.was@10g.pl"
+  },
+  "bugs": {
+    "email": "kt.bugs@10g.pl",
+    "url": "https://github.com/KT-Trez/"
+  },
+  "description": "Allows you to download YouTube videos on your computer.",
+  "keywords": [
+    "youtube",
+    "yt download"
+  ],
+  "license": "Beerware",
+  "name": "yt_downloader",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "docs": "typedoc"
+  },
+  "version": "0.0.1"
+}
