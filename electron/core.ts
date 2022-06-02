@@ -1,10 +1,12 @@
 import {app, BrowserWindow} from 'electron';
+import mountIpcMainHandlers from './src/utils/mount-ipc-main-handlers';
 
 
 // app's core with it's saved instance
 class Core {
 	constructor() {
 		this.loadAppBehaviour();
+		mountIpcMainHandlers();
 	}
 
 	createWindow() {

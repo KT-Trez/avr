@@ -13,5 +13,8 @@
     "build": "tsc",
     "dev": "tsc -w",
     "electron-dev": "electron --trace-warnings ."
+  },
+  "devDependencies": {
+    "@types/yt-search": "^2.3.2"
   }
 }

@@ -13,4 +13,8 @@
 
 # production
 /client/build
+/downloads
 /electron/dist
+
+# exclude
+!/downloads/!keep
