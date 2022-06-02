@@ -8,7 +8,13 @@ import {
 	Grid,
 	IconButton,
 	Paper,
-	Stack, Table, TableBody, TableCell, TableContainer, TableHead,
+	Stack,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
 	Typography
 } from '@mui/material';
 import React, {useState} from 'react';
@@ -24,8 +30,6 @@ interface VideoMetadataProps {
 function VideoMetadata({video}: VideoMetadataProps) {
 	const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
 	const [isDownloadMenuVisible, setIsDownloadMenuVisible] = useState(false);
-	// todo: implement progress
-	//const [isDownloading, setIsDownloading] = useState(false);
 
 	const [downloadOptions, setDownloadOptions] = useState<RecordingFormat[]>([]);
 	const [hasDownloadOptions, setHasDownloadOptions] = useState(false);
@@ -118,30 +122,32 @@ function VideoMetadata({video}: VideoMetadataProps) {
 				<Grid item sx={{p: 1}} xs={12}>
 					<Typography variant={'body2'}>
 						Download:
-						{!hasDownloadOptions ?
-							<Stack direction={'row'} justifyContent={'center'} sx={{p: 3, width: '100%'}}>
-								<CircularProgress/>
-							</Stack> :
-							<TableContainer sx={{maxHeight: '38vh'}}>
-								<Table size={'small'} stickyHeader>
-									<TableHead>
+					</Typography>
+					{!hasDownloadOptions ?
+						<Stack direction={'row'} justifyContent={'center'} sx={{p: 3, width: '100%'}}>
+							<CircularProgress/>
+						</Stack> :
+						<TableContainer sx={{maxHeight: '38vh'}}>
+							<Table size={'small'} stickyHeader>
+								<TableHead>
+									<TableRow>
 										<TableCell align={'center'}>Bitrate</TableCell>
 										<TableCell align={'center'}>Resolution</TableCell>
 										<TableCell>Audio</TableCell>
 										<TableCell>Video</TableCell>
 										<TableCell>Codecs</TableCell>
 										<TableCell>FPS</TableCell>
-										<TableCell align={'right'}></TableCell>
-									</TableHead>
-									<TableBody>
-										{downloadOptions.map(option => {
-											return(<RecordingMetadata recording={option} videoID={video.videoId} videoType={video.type} videoURL={video.url}/>)
-										})}
-									</TableBody>
-								</Table>
-							</TableContainer>
-						}
-					</Typography>
+										<TableCell align={'right'}/>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{downloadOptions.map(option => {
+										return (<RecordingMetadata recording={option} videoURL={video.url}/>)
+									})}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					}
 				</Grid>
 			</Collapse>
 		</Paper>

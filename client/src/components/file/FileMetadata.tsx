@@ -11,15 +11,18 @@ import {FileInfo} from '../../types/interfaces';
 
 interface FileMetadataProps {
 	metadata: FileInfo;
+	openDialog: (isOpen: boolean) => void;
+	setDeleteContext: (deleteContext: string) => void;
 }
 
-function FileMetadata({metadata}: FileMetadataProps) {
+function FileMetadata({metadata, openDialog, setDeleteContext}: FileMetadataProps) {
 	const deleteFile = () => {
-		// todo: implement it
+		setDeleteContext(metadata.name);
+		openDialog(true);
 	};
 
 	const openFile = () => {
-		IPCRenderer.openFile(metadata.name);
+		IPCRenderer.openDownloadsFile(metadata.name);
 	};
 
 	return (
@@ -43,7 +46,7 @@ function FileMetadata({metadata}: FileMetadataProps) {
 				<IconButton onClick={openFile}>
 					<LaunchIcon/>
 				</IconButton>
-				<IconButton>
+				<IconButton onClick={deleteFile}>
 					<DeleteForeverIcon color={'error'}/>
 				</IconButton>
 			</TableCell>

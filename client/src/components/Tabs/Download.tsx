@@ -20,7 +20,7 @@ function Download() {
 		if (!search)
 			return;
 
-		const videos = await IPCRenderer.searchForRecordings(search.split(' '));
+		const videos = await IPCRenderer.searchForRecordings(search);
 		setVideos(videos);
 		setIsSearching(false);
 	};

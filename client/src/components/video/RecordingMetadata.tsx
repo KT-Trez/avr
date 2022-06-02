@@ -7,14 +7,12 @@ import {RecordingFormat} from '../../types/interfaces';
 
 interface RecordingMetadataProps {
 	recording: RecordingFormat;
-	videoID: string;
-	videoType: string;
 	videoURL: string;
 }
 
-function RecordingMetadata({recording, videoID, videoType, videoURL}: RecordingMetadataProps) {
+function RecordingMetadata({recording, videoURL}: RecordingMetadataProps) {
 	const downloadRecording = () => {
-		IPCRenderer.downloadRecording(videoURL,  recording,videoType + '-' + videoID);
+		IPCRenderer.getRecording(videoURL,  recording);
 	};
 
 	return (
