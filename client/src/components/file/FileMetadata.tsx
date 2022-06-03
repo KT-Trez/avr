@@ -1,7 +1,7 @@
+import AudioFileIcon from '@mui/icons-material/AudioFile';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import LaunchIcon from '@mui/icons-material/Launch';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import VideoFileIcon from '@mui/icons-material/VideoFile';
 import {IconButton, TableCell, TableRow} from '@mui/material';
 import moment from 'moment';
 import React from 'react';
@@ -29,8 +29,8 @@ function FileMetadata({metadata, openDialog, setDeleteContext}: FileMetadataProp
 		<TableRow key={metadata.name}>
 			<TableCell>
 				{metadata.media === 'mp3' ?
-					<MusicNoteIcon color={'disabled'}/> :
-					<PlayCircleIcon color={'disabled'}/>
+					<AudioFileIcon color={'disabled'} fontSize={'large'}/> :
+					<VideoFileIcon color={'disabled'} fontSize={'large'}/>
 				}
 			</TableCell>
 			<TableCell>

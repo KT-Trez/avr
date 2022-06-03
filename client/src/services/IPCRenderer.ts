@@ -11,8 +11,18 @@ export default class IPCRenderer {
 		ipcRenderer.send('delete-from-downloads', fileName);
 	}
 
+	static getInstance() {
+		return ipcRenderer;
+	}
+
 	static getRecording(url: string, format: RecordingFormat) {
 		ipcRenderer.send('get-recording', url, format);
+	}
+
+	static getRecordingAdvanced(url: string, audioFormat: RecordingFormat, videoFormat: RecordingFormat) {
+		if (!audioFormat.hasAudio || !videoFormat.hasVideo)
+			return;
+		ipcRenderer.send('get-recording-advanced', url, audioFormat, videoFormat);
 	}
 
 	static async getRecordingFormats(url: string): Promise<RecordingFormat[]> {

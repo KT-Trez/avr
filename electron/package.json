@@ -1,11 +1,19 @@
 {
   "dependencies": {
     "electron": "^16.0.7",
+    "ffmpeg-static": "^5.0.0",
+    "ffprobe-static": "^3.0.0",
+    "fluent-ffmpeg": "^2.1.2",
     "moment": "^2.29.1",
     "yt-search": "^2.10.3",
     "ytdl-core": "^4.11.0"
   },
   "description": "Core of yt_downloader app.",
+  "devDependencies": {
+    "@types/ffmpeg-static": "^3.0.1",
+    "@types/fluent-ffmpeg": "^2.1.20",
+    "@types/yt-search": "^2.3.2"
+  },
   "main": "dist/core.js",
   "name": "yt_downloader_core",
   "private": true,
@@ -13,8 +21,5 @@
     "build": "tsc",
     "dev": "tsc -w",
     "electron-dev": "electron --trace-warnings ."
-  },
-  "devDependencies": {
-    "@types/yt-search": "^2.3.2"
   }
 }

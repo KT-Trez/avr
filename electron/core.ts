@@ -1,19 +1,36 @@
 import {app, BrowserWindow} from 'electron';
+import * as path from 'path';
 import mountIpcMainHandlers from './src/utils/mount-ipc-main-handlers';
 
 
 // app's core with it's saved instance
-class Core {
-	constructor() {
-		this.loadAppBehaviour();
-		mountIpcMainHandlers();
+// todo: reactor that mess below
+export default class Core {
+	private static instance: Core;
+
+	static getInstance() {
+		if (!this.instance)
+			this.instance = new Core();
+		return this.instance;
 	}
 
-	createWindow() {
+
+	private win: BrowserWindow | undefined = undefined;
+
+	constructor() {
+		this.createBrowserWindow = this.createBrowserWindow.bind(this);
+
+		mountIpcMainHandlers();
+		this.startApp();
+	}
+
+	createBrowserWindow() {
 		const win = new BrowserWindow({
 			height: 600,
 			minHeight: 600,
 			minWidth: 900,
+			roundedCorners: true,
+			show: false,
 			webPreferences: {
 				contextIsolation: false,
 				nodeIntegration: true
@@ -21,21 +38,37 @@ class Core {
 			width: 940
 		});
 
-		// todo: load static files instead of url && fix isDev
-		win.loadURL('http://localhost:3000').then(() => console.log('[INFO] Loaded from live url.'));
+		win.once('ready-to-show', () => win.show());
+
+		win.loadURL('http://localhost:3000')
+			.then(() => console.log('[INFO] Loaded from live URL.'))
+			.catch(err => {
+				console.log('[ERROR] Couldn\'t load from live URL (' + err.message + '). \nChanging loading to local files.');
+
+				const absolutePath = path.resolve('../client/build/index.html');
+				win.loadURL(absolutePath)
+					.then(() => console.log('[INFO] Loaded from local files.'))
+					.catch(err => console.log('[ERROR] Couldn\'t load from local files: ' + err.message));
+			});
+		win.center();
+		this.win = win;
 	}
 
-	loadAppBehaviour() {
-		app.on('activate', () => {
+	getBrowserWindow() {
+		return this.win!;
+	}
+
+	startApp() {
+		app.once('activate', () => {
 			if (BrowserWindow.getAllWindows().length === 0)
-				this.createWindow();
+				this.createBrowserWindow();
 		});
 
 		app.on('window-all-closed', () => app.quit());
 
-		app.whenReady().then(this.createWindow);
+		app.whenReady().then(this.createBrowserWindow);
 	}
 }
 
 
-new Core();
+Core.getInstance();

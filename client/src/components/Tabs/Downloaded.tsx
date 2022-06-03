@@ -100,10 +100,16 @@ function Downloaded() {
 			</Stack>
 			<Divider/>
 
-			{isLoading ?
-				<Stack direction={'row'} justifyContent={'center'} sx={{pt: 5}}>
-					<CircularProgress/>
-				</Stack> :
+			{isLoading &&
+                <Stack direction={'row'} justifyContent={'center'} sx={{pt: 5}}>
+                    <CircularProgress/>
+                </Stack>
+			}
+			{!isLoading && files.length === 0 ?
+				<Typography align={'center'} color={'text.secondary'} sx={{fontStyle: 'italic', mt: 4}} variant={'body2'}>
+					No downloaded audio/music.
+				</Typography>
+				:
 				<TableContainer>
 					<Table size={'small'} stickyHeader>
 						<TableHead>
