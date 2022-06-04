@@ -43,8 +43,7 @@ function VideoMetadata({video}: VideoMetadataProps) {
 	const advanceDownload = () => {
 		if (!advancedAudioFormat || !advancedVideoFormat)
 			return;
-		IPCRenderer.getRecordingAdvanced(video.url, advancedAudioFormat, advancedVideoFormat);
-		// todo: handle progress
+		IPCRenderer.getRecordingAdvanced(video.url, advancedAudioFormat, advancedVideoFormat, video.duration.seconds);
 	};
 
 	const showDescription = () => {

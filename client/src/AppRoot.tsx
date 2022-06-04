@@ -6,6 +6,7 @@ import React from 'react';
 import Notifications from './components/body/Notifications';
 import Download from './components/Tabs/Download';
 import Downloaded from './components/Tabs/Downloaded';
+import Queue from './components/Tabs/Queue';
 
 
 export default function AppRoot() {
@@ -22,6 +23,7 @@ export default function AppRoot() {
 
 					<Route element={<Download/>} path='/tabs/download'/>
 					<Route element={<Downloaded/>} path='/tabs/downloaded'/>
+					<Route element={<Queue/>} path={'/tabs/queue'}/>
 				</Routes>
 			</BrowserRouter>
 			<CssBaseline/>

@@ -1,3 +1,14 @@
+export interface QueueEntryMetadata {
+	audioProgress: number;
+	hasAudio: boolean;
+	hasVideo: boolean;
+	isAudioDownloaded: boolean;
+	isDownloaded: boolean;
+	isVideoDownloaded: boolean;
+	name: string;
+	videoProgress: number;
+}
+
 export interface FileInfo {
 	created: Date;
 	media: 'mp3' | 'mp4';

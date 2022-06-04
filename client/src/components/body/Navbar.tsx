@@ -19,6 +19,9 @@ export default function Navbar() {
 			case 0:
 				navigate('/tabs/download');
 				break;
+			case 1:
+				navigate('/tabs/queue');
+				break;
 			case 2:
 				navigate('/tabs/downloaded');
 				break;

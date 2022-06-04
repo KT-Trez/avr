@@ -1,6 +1,6 @@
 import {Alert, Snackbar} from '@mui/material';
 //@ts-ignore
-import {IpcRendererEvent} from 'electron'
+import {IpcRendererEvent} from 'electron';
 import React, {useEffect, useState} from 'react';
 import IPCRenderer from '../../services/IPCRenderer';
 

@@ -100,37 +100,38 @@ function Downloaded() {
 			</Stack>
 			<Divider/>
 
-			{isLoading &&
-                <Stack direction={'row'} justifyContent={'center'} sx={{pt: 5}}>
-                    <CircularProgress/>
-                </Stack>
-			}
-			{!isLoading && files.length === 0 ?
-				<Typography align={'center'} color={'text.secondary'} sx={{fontStyle: 'italic', mt: 4}} variant={'body2'}>
-					No downloaded audio/music.
-				</Typography>
+			{isLoading ?
+				<Stack direction={'row'} justifyContent={'center'} sx={{pt: 5}}>
+					<CircularProgress/>
+				</Stack>
 				:
-				<TableContainer>
-					<Table size={'small'} stickyHeader>
-						<TableHead>
-							<TableRow>
-								<TableCell>Typ</TableCell>
-								<TableCell>Nazwa</TableCell>
-								<TableCell>Utworzono</TableCell>
-								<TableCell>Rozmiar</TableCell>
-								<TableCell/>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{files.map(file => {
-								return (<FileMetadata key={file.name}
-													  metadata={file}
-													  openDialog={setIsDialogOpen}
-													  setDeleteContext={setDeleteContext}/>);
-							})}
-						</TableBody>
-					</Table>
-				</TableContainer>
+				!isLoading && files.length === 0 ?
+					<Typography align={'center'} color={'text.secondary'} sx={{fontStyle: 'italic', mt: 4}}
+								variant={'body2'}>
+						No downloaded audio/music.
+					</Typography>
+					:
+					<TableContainer>
+						<Table size={'small'} stickyHeader>
+							<TableHead>
+								<TableRow>
+									<TableCell>Typ</TableCell>
+									<TableCell>Nazwa</TableCell>
+									<TableCell>Utworzono</TableCell>
+									<TableCell>Rozmiar</TableCell>
+									<TableCell/>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{files.map(file => {
+									return (<FileMetadata key={file.name}
+														  metadata={file}
+														  openDialog={setIsDialogOpen}
+														  setDeleteContext={setDeleteContext}/>);
+								})}
+							</TableBody>
+						</Table>
+					</TableContainer>
 			}
 		</React.Fragment>
 	);
