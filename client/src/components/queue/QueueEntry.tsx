@@ -1,6 +1,7 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import DownloadingIcon from '@mui/icons-material/Downloading';
+import MergeIcon from '@mui/icons-material/Merge';
 import {Grid, IconButton, Paper, Stack, Typography} from '@mui/material';
 import React from 'react';
 import QueueService from '../../services/QueueService';
@@ -33,12 +34,24 @@ function QueueEntry({entryMetadata, updateQueue}: QueueEntryProps) {
 				<Grid container>
 					<Grid item xs>
 						<Stack>
-							<QueueProgress isDisabled={!entryMetadata.hasAudio} isDownloaded={entryMetadata.isAudioDownloaded} name={'Audio'} percent={entryMetadata.audioProgress}/>
-							<QueueProgress isDisabled={!entryMetadata.hasVideo} isDownloaded={entryMetadata.isVideoDownloaded} name={'Video'} percent={entryMetadata.videoProgress}/>
+							<QueueProgress isDisabled={!entryMetadata.hasAudio}
+										   isDone={entryMetadata.isAudioDownloaded}
+										   name={'Audio'} percent={entryMetadata.audioProgress}
+										   progressIcon={<DownloadingIcon color={'disabled'}/>}/>
+							<QueueProgress isDisabled={!entryMetadata.hasVideo}
+										   isDone={entryMetadata.isVideoDownloaded}
+										   name={'Video'}
+										   percent={entryMetadata.videoProgress}
+										   progressIcon={<DownloadingIcon color={'disabled'}/>}/>
+							<QueueProgress isDisabled={!entryMetadata.hasMerge}
+										   isDone={entryMetadata.isMerged}
+										   name={'Merge'}
+										   percent={entryMetadata.mergeProgress}
+										   progressIcon={<MergeIcon color={'disabled'} sx={{transform: 'rotate(90deg)'}}/>}/>
 						</Stack>
 					</Grid>
 					<Grid item sx={{alignItems: 'center', display: 'flex', justifyContent: 'center'}} xs={1}>
-						{entryMetadata.isDownloaded ?
+						{entryMetadata.isDownloaded && entryMetadata.isMerged ?
 							<CheckCircleIcon color={'success'} fontSize={'large'}/>
 							:
 							<DownloadingIcon color={'disabled'} fontSize={'large'}/>
@@ -46,7 +59,7 @@ function QueueEntry({entryMetadata, updateQueue}: QueueEntryProps) {
 					</Grid>
 				</Grid>
 			</Stack>
-			<IconButton disabled={!entryMetadata.isDownloaded} onClick={close} size={'small'} sx={{position: 'absolute', right: 1, top: 1}}>
+			<IconButton disabled={!entryMetadata.isDownloaded || !entryMetadata.isMerged} onClick={close} size={'small'} sx={{position: 'absolute', right: 1, top: 1}}>
 				<CloseIcon sx={{fontSize: 15}}/>
 			</IconButton>
 		</Paper>

@@ -14,8 +14,8 @@ export default class QueueService implements QueueEntryMetadata {
 		return this.downloads.has(name);
 	}
 
-	static createEntry(name: string, hasAudio?: boolean, hasVideo?: boolean) {
-		QueueService.downloads.set(name, new QueueService(name, hasAudio, hasVideo));
+	static createEntry(name: string, hasAudio?: boolean, hasVideo?: boolean, hasMerge?: boolean) {
+		QueueService.downloads.set(name, new QueueService(name, hasAudio, hasVideo, hasMerge));
 	}
 
 	static deleteEntry(name: string) {
@@ -38,6 +38,17 @@ export default class QueueService implements QueueEntryMetadata {
 		queueEntry!.audioProgress = newProgress;
 	}
 
+	static async updateMergeProgress(name: string, newProgress: number) {
+		let queueEntry = this.downloads.get(name);
+		if (!queueEntry) {
+			if (await this.recoverQueue(name))
+				throw new Error('Cannot get queue entry');
+			else
+				queueEntry = this.downloads.get(name);
+		}
+		queueEntry!.mergeProgress = newProgress;
+	}
+
 	static async updateVideoProgress(name: string, newProgress: number) {
 		let queueEntry = this.downloads.get(name);
 		if (!queueEntry) {
@@ -58,6 +69,10 @@ export default class QueueService implements QueueEntryMetadata {
 		return this._hasAudio;
 	}
 
+	get hasMerge(): boolean {
+		return this._hasMerge;
+	}
+
 	get hasVideo(): boolean {
 		return this._hasVideo;
 	}
@@ -68,6 +83,10 @@ export default class QueueService implements QueueEntryMetadata {
 
 	get isVideoDownloaded(): boolean {
 		return this._isVideoDownloaded;
+	}
+
+	get mergeProgress(): number {
+		return this._mergeProgress;
 	}
 
 	get videoProgress(): number {
@@ -84,6 +103,12 @@ export default class QueueService implements QueueEntryMetadata {
 		this._hasAudio = value;
 		if (!value)
 			this.isAudioDownloaded = true;
+	}
+
+	set hasMerge(value: boolean) {
+		this._hasMerge = value;
+		if (!value)
+			this.isMerged = true;
 	}
 
 	set hasVideo(value: boolean) {
@@ -104,6 +129,12 @@ export default class QueueService implements QueueEntryMetadata {
 			this.isDownloaded = true;
 	}
 
+	set mergeProgress(value: number) {
+		this._mergeProgress = Math.round(value);
+		if (this.mergeProgress >= 100)
+			this.isMerged = true;
+	}
+
 	set videoProgress(value: number) {
 		this._videoProgress = Math.round(value);
 		if (this.videoProgress >= 100)
@@ -113,19 +144,24 @@ export default class QueueService implements QueueEntryMetadata {
 	// instance params
 	private _audioProgress = 0;
 	private _hasAudio = true;
+	private _hasMerge = true;
 	private _hasVideo = true;
 	private _isAudioDownloaded = false;
 	isDownloaded = false;
+	isMerged = false;
 	private _isVideoDownloaded = false;
+	private _mergeProgress = 0;
 	name: string;
 	private _videoProgress = 0;
 
-	constructor(name: string, hasAudio?: boolean, hasVideo?: boolean) {
+	constructor(name: string, hasAudio?: boolean, hasVideo?: boolean, hasMerge?: boolean) {
 		this.name = name;
 		if (hasAudio !== undefined)
 			this.hasAudio = hasAudio;
 		if (hasVideo !== undefined)
 			this.hasVideo = hasVideo;
+		if (hasMerge !== undefined)
+			this.hasMerge = hasMerge;
 	}
 
 

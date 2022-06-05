@@ -33,7 +33,15 @@ export default class IPCRenderer {
 	static getRecordingAdvanced(url: string, audioFormat: RecordingFormat, videoFormat: RecordingFormat, recordingDurationSec: number) {
 		if (!audioFormat.hasAudio || !videoFormat.hasVideo)
 			return;
-		ipcRenderer.send('get-recording-advanced', url, audioFormat, videoFormat, recordingDurationSec);
+
+		const formats = [{
+			details: audioFormat,
+			type: 'audio'
+		}, {
+			details: videoFormat,
+			type: 'video'
+		}];
+		ipcRenderer.send('get-recording-advanced', url, formats, recordingDurationSec);
 	}
 
 	static async getRecordingFormats(url: string): Promise<RecordingFormat[]> {
@@ -67,17 +75,21 @@ export default class IPCRenderer {
 	constructor() {
 		this.ipcRenderer.on('download-advanced-progress', this.advancedDownloadProgress);
 		this.ipcRenderer.on('download-advanced-start', this.advancedDownloadStart);
+		// todo: info queue about error
 	}
 
 	// ipcRenderer listeners
-	advancedDownloadProgress(event: IpcRendererEvent,name: string, audioProgress: number, videoProgress: number) {
+	advancedDownloadProgress(event: IpcRendererEvent, name: string, audioProgress: number, videoProgress: number, mergeProgress: number) {
 		//noinspection JSIgnoredPromiseFromCall
 		QueueService.updateAudioProgress(name, audioProgress);
+		//noinspection JSIgnoredPromiseFromCall
+		QueueService.updateMergeProgress(name, mergeProgress);
 		//noinspection JSIgnoredPromiseFromCall
 		QueueService.updateVideoProgress(name, videoProgress);
 	}
 
-	advancedDownloadStart(event: IpcRendererEvent, downloadName: string, hasAudio: boolean, hasVideo: boolean) {
-		QueueService.createEntry(downloadName, hasAudio, hasVideo);
+	advancedDownloadStart(event: IpcRendererEvent, downloadName: string, hasAudio: boolean, hasVideo: boolean, hasMerge: boolean) {
+		console.log(hasAudio, hasVideo, hasMerge)
+		QueueService.createEntry(downloadName, hasAudio, hasVideo, hasMerge);
 	}
 }

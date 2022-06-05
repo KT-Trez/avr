@@ -1,0 +1,1 @@
+export type FileExtension = 'mp3' | 'mp4' | 'wav';

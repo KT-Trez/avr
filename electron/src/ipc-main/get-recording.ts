@@ -29,7 +29,7 @@ const handler: IpcMainHandler = {
 
 		console.log('[INFO] Starting recording download.');
 		LocalCache.cacheOngoingDownload(saveName);
-		Core.getInstance().getBrowserWindow().webContents.send('download-advanced-start', saveName, format.hasAudio, format.hasVideo);
+		Core.getInstance().getBrowserWindow().webContents.send('download-advanced-start', saveName, format.hasAudio, format.hasVideo, false);
 
 		let recordingPercent = 0;
 		let recordingProgress = 0;

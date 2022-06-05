@@ -1,28 +1,28 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt';
-import DownloadingIcon from '@mui/icons-material/Downloading';
 import {Grid, LinearProgress, Stack, Typography} from '@mui/material';
 import React from 'react';
 
 
 interface QueueProgressProps {
 	isDisabled: boolean;
-	isDownloaded: boolean;
+	isDone: boolean;
 	name: string;
 	percent: number;
+	progressIcon: React.ReactElement;
 }
 
-function QueueProgress({isDisabled, isDownloaded, name, percent}: QueueProgressProps) {
+function QueueProgress({isDisabled, isDone, name, percent, progressIcon}: QueueProgressProps) {
 	return (
 		<Grid container>
 			<Grid item sx={{alignItems: 'center', display: 'flex'}} xs={1}>
 				{isDisabled ?
 					<DoNotDisturbAltIcon color={'disabled'}/>
 					:
-					isDownloaded ?
-							<CheckCircleIcon color={'success'}/>
-							:
-							<DownloadingIcon color={'disabled'}/>
+					isDone ?
+						<CheckCircleIcon color={'success'}/>
+						:
+						progressIcon
 				}
 			</Grid>
 			<Grid item sx={{alignItems: 'center', display: 'flex'}} xs={1}>

@@ -1,17 +1,24 @@
 export interface QueueEntryMetadata {
 	audioProgress: number;
 	hasAudio: boolean;
+	hasMerge: boolean;
 	hasVideo: boolean;
+	// todo: implement damage notification
+	//isAudioDamaged: boolean;
 	isAudioDownloaded: boolean;
+	//isDamaged: boolean;
 	isDownloaded: boolean;
+	isMerged: boolean;
+	//isVideoDamaged: boolean;
 	isVideoDownloaded: boolean;
+	mergeProgress: number;
 	name: string;
 	videoProgress: number;
 }
 
 export interface FileInfo {
 	created: Date;
-	media: 'mp3' | 'mp4';
+	media: 'mp3' | 'mp4' | 'wav';
 	modified: Date;
 	name: string;
 	size: {

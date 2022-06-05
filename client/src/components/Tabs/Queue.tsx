@@ -26,7 +26,7 @@ function Queue() {
 		<React.Fragment>
 			<QueueHeader/>
 
-			<Stack alignItems={'center'}>
+			<Stack alignItems={'center'} sx={{pb: 1}}>
 				{queue.length === 0 ?
 					<Typography align={'center'} color={'text.secondary'} sx={{fontStyle: 'italic', mt: 4}} variant={'body2'}>
 						Downloads queue is empty.
