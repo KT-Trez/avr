@@ -40,6 +40,7 @@
       "react-app/jest"
     ]
   },
+  "homepage": ".",
   "name": "yt_downloader_gui",
   "private": true,
   "scripts": {

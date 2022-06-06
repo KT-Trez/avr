@@ -20,6 +20,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "electron-dev": "electron --trace-warnings ."
+    "electron-dev": "electron --trace-warnings .",
+    "get-gui": "robocopy ../client/build ./gui /E"
   }
 }
