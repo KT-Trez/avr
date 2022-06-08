@@ -1,6 +1,24 @@
 {
+  "author": {
+    "name": "Bartlomiej 'Trez' Was",
+    "email": "bartlomiej.was@10g.pl"
+  },
+  "build": {
+    "appId": "pl.org.was.yt_downloader",
+    "copyright": "Copyright © 2022 ${author}",
+    "files": [
+      "build/",
+      "node_modules/",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ]
+    },
+    "productName": "YouTube Downloader"
+  },
   "dependencies": {
-    "electron": "^16.0.7",
     "ffmpeg-static": "^5.0.0",
     "ffprobe-static": "^3.0.0",
     "fluent-ffmpeg": "^2.1.2",
@@ -12,14 +30,20 @@
   "devDependencies": {
     "@types/ffmpeg-static": "^3.0.1",
     "@types/fluent-ffmpeg": "^2.1.20",
-    "@types/yt-search": "^2.3.2"
+    "@types/yt-search": "^2.3.2",
+    "electron": "^16.0.7",
+    "electron-builder": "^23.0.3"
   },
-  "main": "dist/core.js",
+  "main": "build/core.js",
   "name": "yt_downloader_core",
   "private": true,
   "scripts": {
     "build": "tsc",
+    "copy-gui": "robocopy ../client/build ./gui /E",
     "dev": "tsc -w",
-    "electron-dev": "electron --trace-warnings ."
-  }
+    "dist": "electron-builder",
+    "electron-dev": "electron --trace-warnings .",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "version": "1.0.0"
 }

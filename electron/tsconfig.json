@@ -5,7 +5,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": true,
-    "outDir": "./dist",
+    "outDir": "./build",
     "resolveJsonModule": true,
     "rootDir": "./",
     "skipLibCheck": true,

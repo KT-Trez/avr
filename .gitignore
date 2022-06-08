@@ -14,7 +14,10 @@
 # production
 /client/build
 /downloads
+/electron/build
+/electron/gui
 /electron/dist
 
 # exclude
 !/downloads/!keep
+!/electron/gui/!keep

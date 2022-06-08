@@ -68,7 +68,7 @@ const handler: IpcMainHandler = {
 					}
 				};
 
-				const worker = new Worker('./dist/src/workers/ffmpeg-download.js', {workerData})
+				const worker = new Worker('./build/src/workers/ffmpeg-download.js', {workerData})
 					.on('exit', exitCode => {
 						// todo: move to debug only
 						console.log('[INFO] Worker exited with code: ' + exitCode);
@@ -114,7 +114,7 @@ const handler: IpcMainHandler = {
 			recordingPaths: paths,
 			savePath: path.resolve('../downloads', saveName)
 		};
-		const worker = new Worker('./dist/src/workers/ffmpeg-merge-audio-video.js', {workerData})
+		const worker = new Worker('./build/src/workers/ffmpeg-merge-audio-video.js', {workerData})
 			.on('exit', exitCode => {
 				// todo: move to debug only
 				console.log('[INFO] Merge worker exited with code: ' + exitCode);

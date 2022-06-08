@@ -40,13 +40,13 @@ export default class Core {
 
 		win.once('ready-to-show', () => win.show());
 
-		win.loadURL('http://localhost:3000')
+		const absolutePath = path.resolve('../client/build/index.html');
+		win.loadFile(absolutePath)
 			.then(() => console.log('[INFO] Loaded from live URL.'))
 			.catch(err => {
 				console.log('[ERROR] Couldn\'t load from live URL (' + err.message + '). \nChanging loading to local files.');
 
-				const absolutePath = path.resolve('../client/build/index.html');
-				win.loadURL(absolutePath)
+				win.loadURL('http://localhost:3000')
 					.then(() => console.log('[INFO] Loaded from local files.'))
 					.catch(err => console.log('[ERROR] Couldn\'t load from local files: ' + err.message));
 			});

@@ -4,7 +4,7 @@ import {IpcMainHandler} from '../types/interfaces';
 
 
 export default function mountIpcMainHandlers() {
-	fs.readdir('./dist/src/ipc-main', async (err, filesNames) => {
+	fs.readdir('./build/src/ipc-main', async (err, filesNames) => {
 		if (err)
 			throw Error('Cannot read directory with ipcMain handlers: ' + err.message);
 
