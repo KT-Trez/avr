@@ -1,5 +1,5 @@
 import {CssBaseline} from '@mui/material';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {Routes, Route, HashRouter} from 'react-router-dom';
 import Header from './components/body/Header';
 import Navbar from './components/body/Navbar';
 import React from 'react';
@@ -14,7 +14,7 @@ export default function AppRoot() {
 		<React.Fragment>
 			<Notifications/>
 
-			<BrowserRouter>
+			<HashRouter>
 				<Header/>
 				<Navbar/>
 
@@ -25,7 +25,7 @@ export default function AppRoot() {
 					<Route element={<Downloaded/>} path='/tabs/downloaded'/>
 					<Route element={<Queue/>} path={'/tabs/queue'}/>
 				</Routes>
-			</BrowserRouter>
+			</HashRouter>
 			<CssBaseline/>
 		</React.Fragment>
 	);

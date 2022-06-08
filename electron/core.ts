@@ -40,15 +40,16 @@ export default class Core {
 
 		win.once('ready-to-show', () => win.show());
 
-		const absolutePath = path.resolve('../client/build/index.html');
-		win.loadFile(absolutePath)
-			.then(() => console.log('[INFO] Loaded from live URL.'))
+		const absolutePath = path.resolve('./gui/index.html');
+		win.loadURL(absolutePath)
+			.then(() => console.log('[INFO] Loaded from local filesystem.'))
 			.catch(err => {
-				console.log('[ERROR] Couldn\'t load from live URL (' + err.message + '). \nChanging loading to local files.');
+				console.log('[ERROR] Couldn\'t load from local filesystem: ' + err.message);
+				console.log('[INFO] Loading from live server\'s URL instead.');
 
-				win.loadURL('http://localhost:3000')
-					.then(() => console.log('[INFO] Loaded from local files.'))
-					.catch(err => console.log('[ERROR] Couldn\'t load from local files: ' + err.message));
+				win.loadURL(process.env.port ?? 'http://localhost:3000')
+					.then(() => console.log('[INFO] Loaded from live server\'s URL.'))
+					.catch(err => console.log('[ERROR] Couldn\'t load from live server\'s URL: ' + err.message));
 			});
 		win.center();
 		this.win = win;

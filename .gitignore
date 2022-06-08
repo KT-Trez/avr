@@ -17,6 +17,7 @@
 /electron/build
 /electron/gui
 /electron/dist
+/electron/gui
 
 # exclude
 !/downloads/!keep
