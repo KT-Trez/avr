@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import * as path from 'path';
 import {videoFormat} from 'ytdl-core';
 import {Worker} from 'worker_threads';
@@ -6,6 +7,7 @@ import LocalCache from '../services/LocalCache';
 import {NotificationSeverity} from '../types/enums';
 import {IpcMainHandler, DownloadWorkerData, WorkerMessage, MergeWorkerData} from '../types/interfaces';
 import {FileExtension} from '../types/types';
+import {downloadsPath, workersPath} from '../utils/paths';
 
 
 const ffmpeg = require('fluent-ffmpeg');
@@ -25,6 +27,11 @@ const handler: IpcMainHandler = {
 			if (format.type === 'video' && !format.details.hasVideo)
 				throw Error('Video format doesn\'t contain video.');
 		}
+
+		//@ts-ignore
+		process.dlopen = () => {
+			throw new Error('Load native module is not safe')
+		};
 
 		const audioFormat = formats.find(format => format.type === 'audio');
 		const recordingID = YTDownload.getVideoID(recordingURL);
@@ -68,17 +75,26 @@ const handler: IpcMainHandler = {
 					}
 				};
 
-				const worker = new Worker('./build/src/workers/ffmpeg-download.js', {workerData})
+				// todo: fix this shit! -IMPORTANT-
+				fs.readdir(workersPath, (err, files) => {
+					console.log(files);
+					for (let file of files)
+						console.log(file === 'ffmpeg-download.js');
+
+				});
+				console.log(path.resolve(workersPath, 'ffmpeg-download.js'));
+
+				const worker = new Worker(path.resolve(workersPath, 'ffmpeg-download.js'), {workerData})
 					.on('exit', exitCode => {
 						// todo: move to debug only
-						console.log('[INFO] Worker exited with code: ' + exitCode);
+						console.info('[INFO] Worker exited with code: ' + exitCode);
 						if (exitCode === 0)
 							finishedDownloads += 1;
 						if (finishedDownloads === formats.length)
 							resolve(paths);
 					})
 					.on('error', err => {
-						console.log('[ERROR] Worker encountered an error:', err);
+						console.error('[ERROR] Worker encountered an error:', err);
 					})
 					.on('message', (message: WorkerMessage) => {
 						switch (message.type) {
@@ -105,19 +121,19 @@ const handler: IpcMainHandler = {
 						}
 					})
 					.on('online', () => {
-						console.log('[INFO] Worker online, starting job');
+						console.info('[INFO] Worker online, starting job');
 					});
 			}
 		});
 
 		const workerData: MergeWorkerData = {
 			recordingPaths: paths,
-			savePath: path.resolve('../downloads', saveName)
+			savePath: path.resolve(downloadsPath, saveName)
 		};
-		const worker = new Worker('./build/src/workers/ffmpeg-merge-audio-video.js', {workerData})
+		const worker = new Worker(path.resolve(workersPath, 'ffmpeg-merge-audio-video.js'), {workerData})
 			.on('exit', exitCode => {
 				// todo: move to debug only
-				console.log('[INFO] Merge worker exited with code: ' + exitCode);
+				console.info('[INFO] Merge worker exited with code: ' + exitCode);
 
 				if (exitCode === 0) {
 					LocalCache.clearOngoingDownload(saveName);
@@ -125,7 +141,7 @@ const handler: IpcMainHandler = {
 				}
 			})
 			.on('error', err => {
-				console.log('[ERROR] Merge worker encountered an error:', err);
+				console.error('[ERROR] Merge worker encountered an error:', err);
 			})
 			.on('message', (message: WorkerMessage) => {
 				switch (message.type) {
@@ -140,7 +156,7 @@ const handler: IpcMainHandler = {
 				}
 			})
 			.on('online', () => {
-				console.log('[INFO] Merge worker online, starting job.');
+				console.info('[INFO] Merge worker online, starting job.');
 			});
 	},
 	name: 'get-recording-advanced',

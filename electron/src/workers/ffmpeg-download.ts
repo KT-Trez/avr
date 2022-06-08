@@ -39,12 +39,12 @@ const downloadRecording = async (recordingURL: string, recordingFormat: videoFor
 			filter: (vFormat: videoFormat) => vFormat.audioBitrate === recordingFormat.audioBitrate && vFormat.qualityLabel === recordingFormat.qualityLabel && vFormat.codecs === recordingFormat.codecs
 		}))
 		.on('start', (command: string) => {
-			console.log('[INFO] Starting ffmpeg video download with: ' + command);
+			console.info('[INFO] Starting ffmpeg video download with: ' + command);
 
 			sendToMainProcess('download-started', command, savePath);
 		})
 		.on('error', (err: Error) => {
-			console.log('[ERROR] Cannot download video: ' + err.message);
+			console.error('[ERROR] Cannot download video: ' + err.message);
 
 			sendToMainProcess('download-error', err);
 		})
@@ -54,14 +54,14 @@ const downloadRecording = async (recordingURL: string, recordingFormat: videoFor
 			else
 				downloadPercent = convertTimestampToSeconds(progress.timemark) / recodingMetadata.recordingDurationSec * 100;
 			if (downloadPercent >= downloadProgressHelper + 1) {
-				console.log('[INFO] Recording download progress: ' + downloadPercent);
+				console.info('[INFO] Recording download progress: ' + downloadPercent);
 
 				sendToMainProcess('download-progress', downloadPercent, recodingMetadata.recordingExtension);
 				downloadProgressHelper += 1;
 			}
 		})
 		.on('end', async () => {
-			console.log('[SUCCESS] Recording ' + recodingMetadata.recordingExtension + ' downloaded.');
+			console.error('[SUCCESS] Recording ' + recodingMetadata.recordingExtension + ' downloaded.');
 
 			downloadPercent = 100;
 			sendToMainProcess('download-progress', downloadPercent, recodingMetadata.recordingExtension);

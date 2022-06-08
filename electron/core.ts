@@ -1,5 +1,4 @@
 import {app, BrowserWindow} from 'electron';
-import * as path from 'path';
 import mountIpcMainHandlers from './src/utils/mount-ipc-main-handlers';
 
 
@@ -33,23 +32,23 @@ export default class Core {
 			show: false,
 			webPreferences: {
 				contextIsolation: false,
-				nodeIntegration: true
+				nodeIntegration: true,
+				nodeIntegrationInWorker: true
 			},
 			width: 940
 		});
 
 		win.once('ready-to-show', () => win.show());
 
-		const absolutePath = path.resolve('./gui/index.html');
-		win.loadURL(absolutePath)
-			.then(() => console.log('[INFO] Loaded from local filesystem.'))
+		win.loadFile('./gui/index.html')
+			.then(() => console.info('[INFO] Loaded from local filesystem.'))
 			.catch(err => {
-				console.log('[ERROR] Couldn\'t load from local filesystem: ' + err.message);
-				console.log('[INFO] Loading from live server\'s URL instead.');
+				console.error('[ERROR] Couldn\'t load from local filesystem: ' + err.message);
+				console.info('[INFO] Loading from live server\'s URL instead.');
 
 				win.loadURL(process.env.port ?? 'http://localhost:3000')
-					.then(() => console.log('[INFO] Loaded from live server\'s URL.'))
-					.catch(err => console.log('[ERROR] Couldn\'t load from live server\'s URL: ' + err.message));
+					.then(() => console.info('[INFO] Loaded from live server\'s URL.'))
+					.catch(err => console.error('[ERROR] Couldn\'t load from live server\'s URL: ' + err.message));
 			});
 		win.center();
 		this.win = win;

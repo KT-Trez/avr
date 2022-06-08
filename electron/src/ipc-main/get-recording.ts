@@ -1,9 +1,11 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import {videoFormat} from 'ytdl-core';
 import Core from '../../core';
 import LocalCache from '../services/LocalCache';
 import {NotificationSeverity} from '../types/enums';
 import {IpcMainHandler} from '../types/interfaces';
+import {downloadsPath} from '../utils/paths';
 
 
 const YTDownload = require('ytdl-core');
@@ -16,7 +18,7 @@ const handler: IpcMainHandler = {
 
 		const videoID = YTDownload.getVideoID(url);
 		const saveName = fileExtension + '-' + (format.audioBitrate ?? 0) + 'x' + (format.qualityLabel ?? '0p') + '-' + videoID + '-' + new Date().getTime() + '.' + fileExtension;
-		const savePath = '../downloads/' + saveName;
+		const savePath = path.resolve(downloadsPath, saveName);
 
 		const downloadID = videoID + '-' + (format.audioBitrate ?? 0) + 'x' + (format.qualityLabel ?? '0p') + '-' + format.codecs;
 		const downloadFlag = LocalCache.readRecordingIsDownloaded(downloadID);
@@ -27,7 +29,7 @@ const handler: IpcMainHandler = {
 
 		Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Information, 'Downloading video: ' + videoID);
 
-		console.log('[INFO] Starting recording download.');
+		console.info('[INFO] Starting recording download.');
 		LocalCache.cacheOngoingDownload(saveName);
 		Core.getInstance().getBrowserWindow().webContents.send('download-advanced-start', saveName, format.hasAudio, format.hasVideo, false);
 
@@ -39,18 +41,22 @@ const handler: IpcMainHandler = {
 			.on('progress', (segmentSize: number, segmentsSum: number, totalSegments: number) => {
 				recordingPercent = segmentsSum / totalSegments * 100;
 				if (recordingPercent >= recordingProgress + 1) {
-					console.log('[INFO] Recording download progress: ' + recordingPercent);
+					console.info('[INFO] Recording download progress: ' + recordingPercent);
 					Core.getInstance().getBrowserWindow().webContents.send('download-advanced-progress', saveName, format.hasAudio ? recordingPercent : null, format.hasVideo ? recordingPercent : null);
 					recordingPercent += 1;
 				}
 			})
 			.on('error', (err: Error) => {
-				console.log('[ERROR] Cannot download audio: ' + err.message);
+				console.error('[ERROR] Cannot download audio: ' + err.message);
 				Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Error, 'Error while downloading recording: ' + videoID + '.');
 			})
 			.pipe(fs.createWriteStream(savePath)
+				.on('error', (err: Error) => {
+					console.error('[ERROR] Cannot save audio: ' + err.message);
+					Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Error, 'Error while saving recording: ' + videoID + '.');
+				})
 				.on('finish', () => {
-					console.log('[SUCCESS] Downloaded: ' + savePath);
+					console.info('[SUCCESS] Downloaded: ' + savePath);
 					Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Success, 'Saved as: ' + saveName);
 				}));
 	},

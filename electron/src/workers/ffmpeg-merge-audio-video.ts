@@ -1,3 +1,4 @@
+// todo: fix imports
 import * as fs from 'fs';
 import {parentPort, workerData} from 'worker_threads';
 import {FFmpegProgress, WorkerMessage} from '../types/interfaces';
@@ -29,16 +30,16 @@ const mereAudioWithVideo = (recordingPaths: string[], savePath: string) => {
 	let mergeProgress = 0;
 	command
 		.on('start', (command: string) => {
-			console.log('[INFO] Starting ffmpeg audio and video merge: ' + command);
+			console.info('[INFO] Starting ffmpeg audio and video merge: ' + command);
 		})
 		.on('error', (err: Error) => {
-			console.log('[ERROR] Cannot merge files: ' + err.message);
+			console.error('[ERROR] Cannot merge files: ' + err.message);
 
 			sendToMainProcess('merge-error', err);
 		})
 		.on('progress', (progress: FFmpegProgress) => {
 			if (progress.percent! >= mergeProgress + 1) {
-				console.log('[INFO] Merge progress: ' + progress.percent);
+				console.info('[INFO] Merge progress: ' + progress.percent);
 
 				sendToMainProcess('merge-progress', progress.percent);
 				mergeProgress += 1;
@@ -50,7 +51,7 @@ const mereAudioWithVideo = (recordingPaths: string[], savePath: string) => {
 			for (const recordingPath of recordingPaths)
 				fs.unlinkSync(recordingPath);
 
-			console.log('[SUCCESS] Merging finished.');
+			console.info('[SUCCESS] Merging finished.');
 			process.exit(0);
 		})
 		.save(savePath);

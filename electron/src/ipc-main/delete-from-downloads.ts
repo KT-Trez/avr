@@ -1,17 +1,19 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import Core from '../../core';
 import LocalCache from '../services/LocalCache';
 import {NotificationSeverity} from '../types/enums';
 import {IpcMainHandler} from '../types/interfaces';
+import {downloadsPath} from '../utils/paths';
 
 
 const handler: IpcMainHandler = {
-	execute: (event, path: string) => {
-		fs.unlink('../downloads/' + path, () => {
-			console.log('[INFO] Resource deleted (' + path + ')');
-			Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Information, 'Deleted file: ' + path);
+	execute: (event, filePath: string) => {
+		fs.unlink(path.resolve(downloadsPath, filePath), () => {
+			console.info('[INFO] Resource deleted (' + filePath + ')');
+			Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Information, 'Deleted file: ' + filePath);
 		});
-		LocalCache.clearRecordingIsDownloaded(path);
+		LocalCache.clearRecordingIsDownloaded(filePath);
 	},
 	name: 'delete-from-downloads',
 	type: 'on'

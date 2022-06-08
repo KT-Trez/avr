@@ -4,9 +4,9 @@ import Header from './components/body/Header';
 import Navbar from './components/body/Navbar';
 import React from 'react';
 import Notifications from './components/body/Notifications';
-import Download from './components/Tabs/Download';
-import Downloaded from './components/Tabs/Downloaded';
-import Queue from './components/Tabs/Queue';
+import Download from './components/tabs/Download';
+import Downloaded from './components/tabs/Downloaded';
+import Queue from './components/tabs/Queue';
 
 
 export default function AppRoot() {

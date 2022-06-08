@@ -89,7 +89,6 @@ export default class IPCRenderer {
 	}
 
 	advancedDownloadStart(event: IpcRendererEvent, downloadName: string, hasAudio: boolean, hasVideo: boolean, hasMerge: boolean) {
-		console.log(hasAudio, hasVideo, hasMerge)
 		QueueService.createEntry(downloadName, hasAudio, hasVideo, hasMerge);
 	}
 }

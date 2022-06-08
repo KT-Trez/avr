@@ -1,10 +1,11 @@
 import {ipcMain} from 'electron';
 import * as fs from 'fs';
 import {IpcMainHandler} from '../types/interfaces';
+import {ipcMainHandlersPath} from './paths';
 
 
 export default function mountIpcMainHandlers() {
-	fs.readdir('./build/src/ipc-main', async (err, filesNames) => {
+	fs.readdir(ipcMainHandlersPath, async (err, filesNames) => {
 		if (err)
 			throw Error('Cannot read directory with ipcMain handlers: ' + err.message);
 

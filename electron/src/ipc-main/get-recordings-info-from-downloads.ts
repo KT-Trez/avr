@@ -1,11 +1,13 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import {IpcMainHandler} from '../types/interfaces';
+import {downloadsPath} from '../utils/paths';
 
 
 const handler: IpcMainHandler = {
 	execute: async () => {
 		const files: fs.Dirent[] = await new Promise((resolve, reject) => {
-			fs.readdir('../downloads', {
+			fs.readdir(downloadsPath, {
 				withFileTypes: true
 			}, (err, files) => {
 				if (err)
@@ -17,10 +19,10 @@ const handler: IpcMainHandler = {
 
 		const directoryContent = [];
 		for (const dirent of files.filter(file => file.name.endsWith('.mp3') || file.name.endsWith('.mp4'))) {
-			if (!fs.existsSync('../downloads/' + dirent.name))
+			if (!fs.existsSync(path.resolve(downloadsPath, dirent.name)))
 				continue;
 
-			const stats = fs.statSync('../downloads/' + dirent.name);
+			const stats = fs.statSync(path.resolve(downloadsPath, dirent.name));
 			const sizeInMB = Math.round(stats.size / (1024 * 1024));
 			directoryContent.push({
 				created: stats.birthtime,

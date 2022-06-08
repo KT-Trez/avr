@@ -5,7 +5,7 @@
   },
   "bugs": {
     "email": "kt.bugs@10g.pl",
-    "url": "https://github.com/KT-Trez/"
+    "url": "https://github.com/KT-Trez/yt_downloader/issues"
   },
   "description": "Desktop app that allows you to download YouTube videos to your computer.",
   "keywords": [
@@ -17,10 +17,9 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/KT-Trez/yt_downloader"
   },
   "scripts": {
     "docs": "typedoc"
-  },
-  "version": "1.0.0"
+  }
 }
