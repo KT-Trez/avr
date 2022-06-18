@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import * as path from 'path';
 import {videoFormat} from 'ytdl-core';
 import {Worker} from 'worker_threads';
@@ -30,7 +29,7 @@ const handler: IpcMainHandler = {
 
 		//@ts-ignore
 		process.dlopen = () => {
-			throw new Error('Load native module is not safe')
+			throw new Error('Load native module is not safe');
 		};
 
 		const audioFormat = formats.find(format => format.type === 'audio');
@@ -75,15 +74,7 @@ const handler: IpcMainHandler = {
 					}
 				};
 
-				// todo: fix this shit! -IMPORTANT-
-				fs.readdir(workersPath, (err, files) => {
-					console.log(files);
-					for (let file of files)
-						console.log(file === 'ffmpeg-download.js');
-
-				});
-				console.log(path.resolve(workersPath, 'ffmpeg-download.js'));
-
+				// TODO: workers doesn't seem to work in asar archives, find a workaround that let's pack the app in asar
 				const worker = new Worker(path.resolve(workersPath, 'ffmpeg-download.js'), {workerData})
 					.on('exit', exitCode => {
 						// todo: move to debug only

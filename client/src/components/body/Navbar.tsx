@@ -32,9 +32,9 @@ export default function Navbar() {
 	return (
 		<React.Fragment>
 			<Tabs onChange={handleChange} value={activeTab} variant={'fullWidth'}>
-				<Tab icon={<DownloadIcon fontSize={'small'}/>} iconPosition={'end'} label={'Pobieranie'}/>
-				<Tab icon={<ListIcon fontSize={'small'}/>} iconPosition={'end'} label={'W kolejce'}/>
-				<Tab icon={<FolderIcon fontSize={'small'}/>} iconPosition={'end'} label={'Pobrane'}/>
+				<Tab icon={<DownloadIcon fontSize={'small'}/>} iconPosition={'end'} label={'Download'}/>
+				<Tab icon={<ListIcon fontSize={'small'}/>} iconPosition={'end'} label={'Queue'}/>
+				<Tab icon={<FolderIcon fontSize={'small'}/>} iconPosition={'end'} label={'Downloaded'}/>
 			</Tabs>
 		</React.Fragment>
 	);

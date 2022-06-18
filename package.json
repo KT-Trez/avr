@@ -18,8 +18,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/KT-Trez/yt_downloader"
-  },
-  "scripts": {
-    "docs": "typedoc"
   }
 }
