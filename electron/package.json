@@ -50,5 +50,5 @@
     "postinstall": "electron-builder install-app-deps",
     "production-gui": "robocopy ../client/build ./gui /E"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
