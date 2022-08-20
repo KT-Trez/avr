@@ -11,6 +11,7 @@ const handler: IpcMainHandler = {
 		if (LocalCache.hasRecordingFormats(url))
 			return LocalCache.readRecordingFormats(url);
 
+		// todo: add try catch
 		const recordingFormats: videoFormat[] = (await YTDownload.getInfo(url)).formats;
 		LocalCache.cacheRecordingFormats(url, recordingFormats);
 		return recordingFormats;

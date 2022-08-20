@@ -29,7 +29,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "moment": "^2.29.1",
     "yt-search": "^2.10.3",
-    "ytdl-core": "^4.11.0"
+    "ytdl-core": "^4.10.0"
   },
   "description": "Desktop app that allows you to download YouTube videos to your computer.",
   "devDependencies": {
@@ -50,5 +50,5 @@
     "postinstall": "electron-builder install-app-deps",
     "production-gui": "robocopy ../client/build ./gui /E"
   },
-  "version": "1.0.1"
+  "version": "1.0.2"
 }

@@ -29,7 +29,7 @@ export default class Core {
 			minHeight: 600,
 			minWidth: 900,
 			roundedCorners: true,
-			show: false,
+			//show: false,
 			webPreferences: {
 				contextIsolation: false,
 				nodeIntegration: true,
