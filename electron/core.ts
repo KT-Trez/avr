@@ -38,7 +38,7 @@ export default class Core {
 			width: 940
 		});
 
-		win.once('ready-to-show', () => win.show());
+		//win.once('ready-to-show', () => win.show());
 
 		win.loadFile('./gui/index.html')
 			.then(() => console.info('[INFO] Loaded from local filesystem.'))
