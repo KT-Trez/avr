@@ -120,5 +120,5 @@
     "test": "react-scripts test"
   },
   "type": "commonjs",
-  "version": "1.0.3"
+  "version": "1.1.0-alpha.0"
 }
