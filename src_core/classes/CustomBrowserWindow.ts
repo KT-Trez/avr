@@ -1,8 +1,5 @@
-import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
-import WebPreferences = Electron.WebPreferences;
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, BrowserWindowConstructorOptions, WebContents, WebPreferences} from 'electron';
 import path from 'path';
-import WebContents = Electron.WebContents;
 
 
 export interface CustomBrowserWindowOptions extends Object {

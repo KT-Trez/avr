@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import {videoFormat} from 'ytdl-core';
-import {NotificationSeverity} from '../../typings/enums';
+import {NotificationSeverity, ProgressAction, ProgressType} from '../../typings/enums';
 import {Messenger} from '../classes/Messenger';
 import LocalCache from '../services/LocalCache';
 import {IpcMainHandler} from '../types/interfaces';
@@ -31,8 +31,8 @@ const handler: IpcMainHandler = {
 
 		console.info('[INFO] Starting recording search.');
 		LocalCache.cacheOngoingDownload(saveName);
-		// todo:
-		//Core.getInstance().getBrowserWindow().webContents.send('search-advanced-start', saveName, format.hasAudio, format.hasVideo, false);
+
+		// todo: queue start notification
 
 		let recordingPercent = 0;
 		let recordingProgress = 0;
@@ -43,8 +43,11 @@ const handler: IpcMainHandler = {
 				recordingPercent = segmentsSum / totalSegments * 100;
 				if (recordingPercent >= recordingProgress + 1) {
 					console.info('[INFO] Recording search progress: ' + recordingPercent);
-					// todo:
-					//Core.getInstance().getBrowserWindow().webContents.send('search-advanced-progress', saveName, format.hasAudio ? recordingPercent : null, format.hasVideo ? recordingPercent : null);
+					Messenger.notifyProgress(videoID, [{
+						action: ProgressAction.Download,
+						type: ProgressType.AudioAndVideo,
+						value: recordingPercent
+					}]);
 					recordingPercent += 1;
 				}
 			})

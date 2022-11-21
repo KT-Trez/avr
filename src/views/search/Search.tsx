@@ -8,24 +8,23 @@ import Video from './Video';
 function Search() {
 	const [isSearching, setIsSearching] = useState(false);
 
-	const [search, setSearch] = useState<string>('');
+	const [keywords, setKeywords] = useState<string>('');
 	const [videos, setVideos] = useState<IVideo[]>([]);
 
 	const getVideos = async () => {
-		if (isSearching || !search)
+		if (isSearching || !keywords)
 			return;
 
 		setIsSearching(true);
-		if (!search)
+		if (!keywords)
 			return;
 
-		// const videos = await IPCRenderer.searchForRecordings(search);
-		//setVideos(videos);
+		setVideos(await window.coreAPI.searchVideos(keywords));
 		setIsSearching(false);
 	};
 
 	const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
-		setSearch(event.target.value);
+		setKeywords(event.target.value);
 	};
 
 	const handleSearchKeyInput = async (event: KeyboardEvent<HTMLInputElement>) => {
@@ -37,12 +36,12 @@ function Search() {
 		<React.Fragment>
 			<Stack alignItems={'center'} direction={'row'} sx={{p: 1, pt: 2}}>
 				<TextField disabled={isSearching}
-						   label={'Video search'}
+						   label={'Video keywords'}
 						   onKeyDown={handleSearchKeyInput}
 						   onChange={handleSearchInput}
 						   placeholder={'e.x.: never gonna give you up'}
 						   size={'small'}
-						   value={search}/>
+						   value={keywords}/>
 				<IconButton onClick={getVideos}>
 					<SearchIcon/>
 				</IconButton>

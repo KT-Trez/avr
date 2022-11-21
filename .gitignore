@@ -6,5 +6,4 @@
 
 # production
 /build/
-/build_core/
 /dist/

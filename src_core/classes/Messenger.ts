@@ -1,6 +1,7 @@
 import {ipcMain} from 'electron';
 import fs from 'fs';
 import path from 'path';
+import {YT_DL} from '../../typings';
 import {NotificationSeverity} from '../../typings/enums';
 import {NotificationVariant} from '../../typings/types';
 import {win} from '../main';
@@ -13,6 +14,13 @@ class Messenger {
 			throw Error('Window not initialized');
 
 		win.webContents.send('notification', message, severity, title, variant);
+	}
+
+	public static notifyProgress(id: string, progresses: YT_DL.Core.Stats.Progress[]) {
+		if (!win.webContents)
+			throw Error('Window not initialized');
+
+		win.webContents.send('notification:progress', id, progresses);
 	}
 }
 

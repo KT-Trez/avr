@@ -7,13 +7,14 @@
     "module": "commonjs",
     "moduleResolution": "Node",
     "noImplicitAny": true,
-    "outDir": "build_core",
+    "outDir": "build/core",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022"
   },
   "exclude": [
+    "build",
     "node_modules",
     "src"
   ],

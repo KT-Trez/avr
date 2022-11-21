@@ -2,14 +2,14 @@ import CheckIcon from '@mui/icons-material/Check';
 import DownloadIcon from '@mui/icons-material/Download';
 import {Box, Fade, IconButton, Switch, TableCell, TableRow} from '@mui/material';
 import React, {useEffect, useState} from 'react';
-import {RecordingFormat} from '../../../typings/interfaces';
+import {videoFormat} from 'ytdl-core';
 
 
 interface FormatProps {
 	advancedDownload: boolean;
 	hasAdvancedAudioFormat: boolean;
 	hasAdvancedVideoFormat: boolean;
-	recordingFormat: RecordingFormat;
+	recordingFormat: videoFormat;
 	setAdvancedAudioFormat: Function;
 	setAdvancedVideoFormat: Function;
 	videoURL: string;
@@ -44,7 +44,7 @@ function Format({
 	};
 
 	const downloadRecording = () => {
-		// IPCRenderer.getRecording(videoURL, recordingFormat);
+		window.coreAPI.downloadVideo(recordingFormat, videoURL);
 	};
 
 	useEffect(() => {

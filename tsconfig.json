@@ -21,6 +21,7 @@
     "target": "es5"
   },
   "exclude": [
+    "build",
     "node_modules",
     "src_core"
   ],

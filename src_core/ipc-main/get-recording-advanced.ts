@@ -1,7 +1,7 @@
 import * as path from 'path';
 import {Worker} from 'worker_threads';
 import {videoFormat} from 'ytdl-core';
-import {NotificationSeverity} from '../../typings/enums';
+import {NotificationSeverity, ProgressAction, ProgressType} from '../../typings/enums';
 import {Extensions} from '../../typings/types';
 import {Messenger} from '../classes/Messenger';
 import LocalCache from '../services/LocalCache';
@@ -40,8 +40,8 @@ const handler: IpcMainHandler = {
 
 		LocalCache.cacheOngoingDownload(saveName);
 		Messenger.notify('Download started: ' + recordingID, NotificationSeverity.Info);
-		// todo:
-		//Core.getInstance().getBrowserWindow().webContents.send('search-advanced-start', saveName, !!audioFormat, !!videoFormat, audioFormat && videoFormat);
+
+		// todo: queue start notification
 
 		let audioPercent = 0;
 		let mergePercent = 0;
@@ -57,9 +57,9 @@ const handler: IpcMainHandler = {
 				switch (format.type) {
 					case 'audio':
 						extension = 'wav';
-						break
+						break;
 					case 'video':
-						extension = 'mp4'
+						extension = 'mp4';
 						break;
 				}
 
@@ -103,8 +103,10 @@ const handler: IpcMainHandler = {
 										videoPercent = message.details[0];
 										break;
 								}
-								// todo:
-								//Core.getInstance().getBrowserWindow().webContents.send('search-advanced-progress', saveName, audioPercent, videoPercent, mergePercent);
+								Messenger.notifyProgress(recordingID, [
+									{action: ProgressAction.Download, type: ProgressType.Audio, value: audioPercent},
+									{action: ProgressAction.Download, type: ProgressType.Video, value: videoPercent}
+								]);
 								break;
 							case 'search-error':
 								// todo: retry worker task
@@ -140,8 +142,11 @@ const handler: IpcMainHandler = {
 				switch (message.type) {
 					case 'merge-progress':
 						mergePercent = message.details[0];
-						// todo:
-						//Core.getInstance().getBrowserWindow().webContents.send('search-advanced-progress', saveName, audioPercent, videoPercent, mergePercent);
+						Messenger.notifyProgress(recordingID, [{
+							action: ProgressAction.Merge,
+							type: ProgressType.AudioAndVideo,
+							value: mergePercent
+						}]);
 						break;
 					case 'search-error':
 						worker.terminate();

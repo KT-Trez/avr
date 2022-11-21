@@ -4,3 +4,14 @@ export declare enum NotificationSeverity {
 	Success,
 	Warning
 }
+
+export declare enum ProgressAction {
+	Download,
+	Merge
+}
+
+export declare enum ProgressType {
+	Audio,
+	AudioAndVideo,
+	Video
+}

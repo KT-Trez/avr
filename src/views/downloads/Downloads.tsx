@@ -37,8 +37,8 @@ function Downloads() {
 
 	const handleDialogConfirm = async () => {
 		window.coreAPI.deleteFromDownloads(deleteContext);
-		await getDownloads();
 		handleDialogCancel();
+		await getDownloads();
 	};
 
 	const openDownloadsDir = () => {
@@ -52,7 +52,7 @@ function Downloads() {
 
 	const refreshDownloadsContent = () => {
 		setIsLoading(true);
-		setTimeout(() => getDownloads(), 500);
+		setTimeout(() => getDownloads(), 700);
 	};
 
 	useEffect(() => {

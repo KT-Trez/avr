@@ -1,5 +1,5 @@
-import {videoFormat} from 'ytdl-core';
 import {IpcMainInvokeEvent} from 'electron';
+import {videoFormat} from 'ytdl-core';
 import LocalCache from '../services/LocalCache';
 import {IpcMainHandler} from '../types/interfaces';
 

@@ -22,7 +22,9 @@ import {
 	Typography
 } from '@mui/material';
 import React, {useState} from 'react';
-import {RecordingFormat, Video as IVideo} from '../../../typings/interfaces';
+import {videoFormat} from 'ytdl-core';
+import {YT_DL} from '../../../typings';
+import {Video as IVideo} from '../../../typings/interfaces';
 import Format from './Format';
 
 
@@ -35,16 +37,20 @@ function Video({video}: VideoProps) {
 	const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
 	const [isDownloadMenuVisible, setIsDownloadMenuVisible] = useState(false);
 
-	const [downloadOptions, setDownloadOptions] = useState<RecordingFormat[]>([]);
-	const [hasDownloadOptions, setHasDownloadOptions] = useState(false);
+	const [formats, setFormats] = useState<videoFormat[]>([]);
+	const [hasFormats, setHasFormats] = useState(false);
 
-	const [advancedAudioFormat, setAdvancedAudioFormat] = useState<RecordingFormat | null>(null);
-	const [advancedVideoFormat, setAdvancedVideoFormat] = useState<RecordingFormat | null>(null);
+	const [advancedAudioFormat, setAdvancedAudioFormat] = useState<videoFormat | null>(null);
+	const [advancedVideoFormat, setAdvancedVideoFormat] = useState<videoFormat | null>(null);
 
 	const advanceDownload = () => {
 		if (!advancedAudioFormat || !advancedVideoFormat)
 			return;
-		// IPCRenderer.getRecordingAdvanced(video.url, advancedAudioFormat, advancedVideoFormat, video.duration.seconds);
+		const formats: YT_DL.GUI.Formats.SelectedFormat[] = [
+			{details: advancedAudioFormat, type: 'audio'},
+			{details: advancedVideoFormat, type: 'video'}
+		];
+		window.coreAPI.downloadPartialVideo(formats, video.duration.seconds, video.url);
 	};
 
 	const showDescription = () => {
@@ -53,13 +59,11 @@ function Video({video}: VideoProps) {
 		setIsDescriptionVisible(value => !value);
 	};
 
-	const showDownloadMenu = () => {
-		//if (!hasDownloadOptions)
-		//	// IPCRenderer.getRecordingFormats(video.url)
-		//		.then(options => {
-		//			setHasDownloadOptions(true);
-		//			setDownloadOptions(options);
-		//		});
+	const showDownloadMenu = async () => {
+		if (!hasFormats) {
+			setFormats(await window.coreAPI.getFormats(video.url));
+			setHasFormats(true);
+		}
 
 		if (isDescriptionVisible)
 			setIsDescriptionVisible(false);
@@ -175,7 +179,7 @@ function Video({video}: VideoProps) {
 						</Stack>
 					</Collapse>
 
-					{!hasDownloadOptions ?
+					{!hasFormats ?
 						<Stack direction={'row'} justifyContent={'center'} sx={{p: 3, width: '100%'}}>
 							<CircularProgress/>
 						</Stack> :
@@ -198,7 +202,7 @@ function Video({video}: VideoProps) {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{downloadOptions.map(option => {
+									{formats.map(option => {
 										return (<Format advancedDownload={isAdvancedDownloadActive}
 														hasAdvancedAudioFormat={advancedAudioFormat !== null}
 														hasAdvancedVideoFormat={advancedVideoFormat !== null}

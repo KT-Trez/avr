@@ -23,9 +23,12 @@
     "artifactName": "YouTube-Downloader_${version}_${os}_${arch}.${ext}",
     "asar": false,
     "copyright": "Copyright © 2022 ${author}",
+    "extraMetadata": {
+      "main": null
+    },
     "files": [
       "build",
-      "build_core"
+      "package.json"
     ],
     "linux": {
       "category": "",
@@ -38,12 +41,20 @@
         "snap"
       ]
     },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true,
+      "license": "LICENSE",
+      "oneClick": false,
+      "perMachine": true
+    },
     "productName": "YouTube Downloader",
     "win": {
       "icon": "public/icons/logo.png",
       "target": [
         "7z",
         "msi",
+        "nsis",
         "portable",
         "zip"
       ]
@@ -52,7 +63,9 @@
   "config": {
     "default_origin": "http://localhost:3000/"
   },
-  "cpu": [],
+  "cpu": [
+    "x64"
+  ],
   "dependencies": {
     "@mui/icons-material": "^5.1.0",
     "@mui/material": "^5.2.8",
@@ -100,9 +113,12 @@
     "youtube download"
   ],
   "license": "Beerware",
-  "main": "build_core/src_core/main.js",
+  "main": "build/core/src_core/main.js",
   "name": "youtube-downloader",
-  "os": [],
+  "os": [
+    "linux",
+    "win32"
+  ],
   "private": true,
   "repository": {
     "type": "git",
@@ -115,6 +131,7 @@
     "eject": "react-scripts eject",
     "electron-builder": "electron-builder",
     "electron-dev": "electron --trace-warnings .",
+    "preelectron-pack": "npm run-script build",
     "postinstall": "electron-builder install-app-deps",
     "start": "react-scripts start",
     "test": "react-scripts test"

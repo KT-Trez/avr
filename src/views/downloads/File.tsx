@@ -21,7 +21,7 @@ function File({metadata, openDialog, setDeleteContext}: FileProps) {
 	};
 
 	const openFile = () => {
-		// IPCRenderer.openDownloadsFile(metadata.name);
+		window.coreAPI.openDownloadsFile(metadata.name);
 	};
 
 	return (
