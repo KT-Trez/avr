@@ -2,6 +2,7 @@ import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOption
 import WebPreferences = Electron.WebPreferences;
 import {app, BrowserWindow} from 'electron';
 import path from 'path';
+import WebContents = Electron.WebContents;
 
 
 export interface CustomBrowserWindowOptions extends Object {
@@ -21,6 +22,7 @@ export default class CustomBrowserWindow {
 	private readonly minWidth: number;
 	private readonly width: number;
 	win: BrowserWindow | undefined;
+	webContents: WebContents | undefined;
 
 	constructor(options: CustomBrowserWindowOptions) {
 		this.height = options.height;
@@ -45,6 +47,7 @@ export default class CustomBrowserWindow {
 			},
 			width: this.width
 		});
+		this.webContents = this.win.webContents;
 	}
 
 	loadContent(customURL?: string) {

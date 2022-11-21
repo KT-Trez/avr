@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import {YT_DL} from '../../typings';
 import {IpcMainHandler} from '../types/interfaces';
 import {downloadsPath} from '../utils/paths';
 
@@ -17,7 +18,7 @@ const handler: IpcMainHandler = {
 			});
 		});
 
-		const directoryContent = [];
+		const directoryContent: YT_DL.Core.Stats.FileStats[] = [];
 		for (const dirent of files.filter(file => file.name.endsWith('.mp3') || file.name.endsWith('.mp4'))) {
 			if (!fs.existsSync(path.resolve(downloadsPath, dirent.name)))
 				continue;
@@ -38,7 +39,7 @@ const handler: IpcMainHandler = {
 
 		return directoryContent;
 	},
-	name: 'get-recordings-info-from-downloads',
+	name: 'downloads:get',
 	type: 'handle'
 };
 

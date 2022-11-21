@@ -6,7 +6,7 @@ const handler: IpcMainHandler = {
 	execute: async () => {
 		return LocalCache.readOngoingDownloads();
 	},
-	name: 'get-ongoing-downloads',
+	name: 'currentDownloads:get',
 	type: 'handle'
 };
 

@@ -8,7 +8,7 @@ const handler: IpcMainHandler = {
 		const downloadsAbsolutePath = path.resolve(downloadsPath);
 		require('child_process').exec(`explorer.exe "${downloadsAbsolutePath}"`);
 	},
-	name: 'open-downloads',
+	name: 'downloads:open',
 	type: 'on'
 };
 

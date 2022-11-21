@@ -1,9 +1,11 @@
 import * as path from 'path';
 import {Worker} from 'worker_threads';
 import {videoFormat} from 'ytdl-core';
+import {NotificationSeverity} from '../../typings/enums';
+import {Extensions} from '../../typings/types';
+import {Messenger} from '../classes/Messenger';
 import LocalCache from '../services/LocalCache';
 import {DownloadWorkerData, IpcMainHandler, MergeWorkerData, WorkerMessage} from '../types/interfaces';
-import {FileExtension} from '../types/types';
 import {downloadsPath, workersPath} from '../utils/paths';
 
 
@@ -17,7 +19,7 @@ ffmpeg.setFfprobePath(ffProbe.path);
 
 
 const handler: IpcMainHandler = {
-	execute: async (event, recordingURL: string, formats: { details: videoFormat, type: 'audio' | 'video' }[], recordingDurationSec: number) => {
+	execute: async (event, formats: { details: videoFormat, type: 'audio' | 'video' }[], recordingDurationSec: number, recordingURL: string) => {
 		for (const format of formats) {
 			if (format.type === 'audio' && !format.details.hasAudio)
 				throw Error('Audio format doesn\'t contain audio.');
@@ -37,7 +39,8 @@ const handler: IpcMainHandler = {
 		const saveName = 'combo-' + (audioFormat ? audioFormat.details.audioBitrate! : 0) + 'x' + (videoFormat ? videoFormat.details.qualityLabel : '0p') + '-' + recordingID + '-' + new Date().getTime() + '.mp4';
 
 		LocalCache.cacheOngoingDownload(saveName);
-		//Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Information, 'Downloading video: ' + recordingID);
+		Messenger.notify('Download started: ' + recordingID, NotificationSeverity.Info);
+		// todo:
 		//Core.getInstance().getBrowserWindow().webContents.send('search-advanced-start', saveName, !!audioFormat, !!videoFormat, audioFormat && videoFormat);
 
 		let audioPercent = 0;
@@ -50,7 +53,7 @@ const handler: IpcMainHandler = {
 
 			for (const format of formats) {
 				// todo: find universal extension
-				let extension: FileExtension;
+				let extension: Extensions;
 				switch (format.type) {
 					case 'audio':
 						extension = 'wav';
@@ -100,12 +103,13 @@ const handler: IpcMainHandler = {
 										videoPercent = message.details[0];
 										break;
 								}
+								// todo:
 								//Core.getInstance().getBrowserWindow().webContents.send('search-advanced-progress', saveName, audioPercent, videoPercent, mergePercent);
 								break;
 							case 'search-error':
 								// todo: retry worker task
 								worker.terminate();
-								//Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Error, 'Error while downloading parts of the recording: ' + recordingID + '.');
+								Messenger.notify('Part of the download ' + recordingID + ' failed', NotificationSeverity.Error);
 								break;
 						}
 					})
@@ -126,7 +130,7 @@ const handler: IpcMainHandler = {
 
 				if (exitCode === 0) {
 					LocalCache.clearOngoingDownload(saveName);
-					//Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Success, 'Saved as: ' + saveName);
+					Messenger.notify('Video ' + recordingID + ' saved as ' + saveName, NotificationSeverity.Success);
 				}
 			})
 			.on('error', err => {
@@ -136,11 +140,12 @@ const handler: IpcMainHandler = {
 				switch (message.type) {
 					case 'merge-progress':
 						mergePercent = message.details[0];
+						// todo:
 						//Core.getInstance().getBrowserWindow().webContents.send('search-advanced-progress', saveName, audioPercent, videoPercent, mergePercent);
 						break;
 					case 'search-error':
 						worker.terminate();
-						//Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Error, 'Error while merging parts of the recording: ' + recordingID + '.');
+						Messenger.notify('Merging audio and video in ' + recordingID + ' failed', NotificationSeverity.Error);
 						break;
 				}
 			})
@@ -148,7 +153,7 @@ const handler: IpcMainHandler = {
 				console.info('[INFO] Merge worker online, starting job.');
 			});
 	},
-	name: 'get-recording-advanced',
+	name: 'video:advancedDownload',
 	type: 'on'
 };
 

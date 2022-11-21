@@ -16,7 +16,7 @@ const handler: IpcMainHandler = {
 		LocalCache.cacheRecordingFormats(url, recordingFormats);
 		return recordingFormats;
 	},
-	name: 'get-recording-formats',
+	name: 'formats:get',
 	type: 'handle'
 };
 

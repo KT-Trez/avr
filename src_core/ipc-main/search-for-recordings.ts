@@ -21,7 +21,7 @@ const handler: IpcMainHandler = {
 		}
 		return videosMetadata;
 	},
-	name: 'search-for-recordings',
+	name: 'video:search',
 	type: 'handle'
 };
 

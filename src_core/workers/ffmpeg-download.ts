@@ -4,8 +4,8 @@ import * as os from 'os';
 import * as path from 'path';
 import {parentPort, workerData} from 'worker_threads';
 import {videoFormat} from 'ytdl-core';
+import {convertTimestampToSeconds} from '../tools/convertTimestampToSeconds';
 import {FFmpegProgress, RecordingMetadata, WorkerMessage} from '../types/interfaces';
-import {convertTimestampToSeconds} from '../utils/tools';
 
 
 const ffmpeg = require('fluent-ffmpeg');

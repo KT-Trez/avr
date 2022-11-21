@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import {videoFormat} from 'ytdl-core';
+import {NotificationSeverity} from '../../typings/enums';
+import {Messenger} from '../classes/Messenger';
 import LocalCache from '../services/LocalCache';
 import {IpcMainHandler} from '../types/interfaces';
 import {downloadsPath} from '../utils/paths';
@@ -9,7 +11,7 @@ import {downloadsPath} from '../utils/paths';
 const YTDownload = require('ytdl-core');
 
 const handler: IpcMainHandler = {
-	execute: async (event, url: string, format: videoFormat) => {
+	execute: async (event, format: videoFormat, url: string) => {
 		let fileExtension = 'mp4';
 		if (format.hasAudio && !format.hasVideo)
 			fileExtension = 'mp3';
@@ -21,15 +23,15 @@ const handler: IpcMainHandler = {
 		const downloadID = videoID + '-' + (format.audioBitrate ?? 0) + 'x' + (format.qualityLabel ?? '0p') + '-' + format.codecs;
 		const downloadFlag = LocalCache.readRecordingIsDownloaded(downloadID);
 		if (downloadFlag)
-			console.log('todo');
-		//Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Warning, `Recording in selected format has been already downloaded.`);
+			Messenger.notify('Selected format has been already downloaded', NotificationSeverity.Warning);
 		else
 			LocalCache.cacheRecordingIsDownloaded(downloadID, true);
 
-		//Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Information, 'Downloading video: ' + videoID);
+		Messenger.notify('Downloading: ' + videoID, NotificationSeverity.Info);
 
 		console.info('[INFO] Starting recording search.');
 		LocalCache.cacheOngoingDownload(saveName);
+		// todo:
 		//Core.getInstance().getBrowserWindow().webContents.send('search-advanced-start', saveName, format.hasAudio, format.hasVideo, false);
 
 		let recordingPercent = 0;
@@ -41,25 +43,26 @@ const handler: IpcMainHandler = {
 				recordingPercent = segmentsSum / totalSegments * 100;
 				if (recordingPercent >= recordingProgress + 1) {
 					console.info('[INFO] Recording search progress: ' + recordingPercent);
+					// todo:
 					//Core.getInstance().getBrowserWindow().webContents.send('search-advanced-progress', saveName, format.hasAudio ? recordingPercent : null, format.hasVideo ? recordingPercent : null);
 					recordingPercent += 1;
 				}
 			})
 			.on('error', (err: Error) => {
 				console.error('[ERROR] Cannot search audio: ' + err.message);
-				//Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Error, 'Error while downloading recording: ' + videoID + '.');
+				Messenger.notify('Error, download ' + videoID + ' unsuccessful', NotificationSeverity.Error);
 			})
 			.pipe(fs.createWriteStream(savePath)
 				.on('error', (err: Error) => {
 					console.error('[ERROR] Cannot save audio: ' + err.message);
-					//Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Error, 'Error while saving recording: ' + videoID + '.');
+					Messenger.notify('Error, cannot save ' + videoID, NotificationSeverity.Error);
 				})
 				.on('finish', () => {
 					console.info('[SUCCESS] Downloads: ' + savePath);
-					//Core.getInstance().getBrowserWindow().webContents.send('send-notification', NotificationSeverity.Success, 'Saved as: ' + saveName);
+					Messenger.notify('Download ' + videoID + ' ended', NotificationSeverity.Success);
 				}));
 	},
-	name: 'get-recording',
+	name: 'video:download',
 	type: 'on'
 };
 

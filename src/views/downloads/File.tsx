@@ -5,11 +5,11 @@ import VideoFileIcon from '@mui/icons-material/VideoFile';
 import {IconButton, TableCell, TableRow} from '@mui/material';
 import moment from 'moment';
 import React from 'react';
-import {FileInfo} from '../../../typings/interfaces';
+import {YT_DL} from '../../../typings';
 
 
 interface FileProps {
-	metadata: FileInfo;
+	metadata: YT_DL.Core.Stats.FileStats;
 	openDialog: (isOpen: boolean) => void;
 	setDeleteContext: (deleteContext: string) => void;
 }

@@ -19,7 +19,7 @@ import {
 	Typography
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
-import {FileInfo} from '../../../typings/interfaces';
+import {YT_DL} from '../../../typings';
 import File from './File';
 
 
@@ -28,38 +28,35 @@ function Downloads() {
 	const [isLoading, setIsLoading] = useState(true);
 
 	const [deleteContext, setDeleteContext] = useState('');
-	const [files, setFiles] = useState<FileInfo[]>([]);
+	const [files, setFiles] = useState<YT_DL.Core.Stats.FileStats[]>([]);
 
 	const handleDialogCancel = () => {
 		setIsDialogOpen(false);
 		setDeleteContext('');
 	};
 
-	const handleDialogConfirm = () => {
-		// IPCRenderer.deleteFromDownloads(deleteContext);
+	const handleDialogConfirm = async () => {
+		window.coreAPI.deleteFromDownloads(deleteContext);
+		await getDownloads();
 		handleDialogCancel();
-		readDownloads();
 	};
 
 	const openDownloadsDir = () => {
-		// IPCRenderer.openDownloadsDir();
+		window.coreAPI.openDownloads();
 	};
 
-	const readDownloads = () => {
-		// IPCRenderer.getSavedRecordingsInfo()
-		//	.then(filesMetadata => {
-		//		setFiles(filesMetadata);
-		//		setIsLoading(false);
-		//	});
+	const getDownloads = async () => {
+		setFiles(await window.coreAPI.getDownloads());
+		setIsLoading(false);
 	};
 
 	const refreshDownloadsContent = () => {
 		setIsLoading(true);
-		setTimeout(() => readDownloads(), 500);
+		setTimeout(() => getDownloads(), 500);
 	};
 
 	useEffect(() => {
-		readDownloads();
+		getDownloads();
 	}, []);
 
 	return (

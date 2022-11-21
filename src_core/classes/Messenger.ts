@@ -1,12 +1,21 @@
 import {ipcMain} from 'electron';
 import fs from 'fs';
 import path from 'path';
+import {NotificationSeverity} from '../../typings/enums';
+import {NotificationVariant} from '../../typings/types';
+import {win} from '../main';
 import {IpcMainHandler} from '../types/interfaces';
 
 
 class Messenger {
-	public static bridge = new EventTarget();
+	public static notify(message: string, severity: NotificationSeverity, title?: string, variant?: NotificationVariant) {
+		if (!win.webContents)
+			throw Error('Window not initialized');
+
+		win.webContents.send('notification', message, severity, title, variant);
+	}
 }
+
 
 function mountIpcMainHandlers() {
 	fs.readdir(path.resolve(__dirname, '../ipc-main'), async (err, filesNames) => {

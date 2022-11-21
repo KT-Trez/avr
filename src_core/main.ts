@@ -7,8 +7,6 @@ import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOption
 import WebPreferences = Electron.WebPreferences;
 
 
-mountIpcMainHandlers();
-
 const options: CustomBrowserWindowOptions = {
 	height: 600,
 	minHeight: 600,
@@ -34,6 +32,12 @@ app.on('ready', () => {
 		webSecurity: !app.isPackaged
 	};
 
+	mountIpcMainHandlers();
+
 	win.create(options, preferences, path.join(__dirname, 'preload', 'main_preload.js'));
 	win.loadContent();
 });
+
+export {
+	win
+};

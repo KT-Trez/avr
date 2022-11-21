@@ -1,6 +1,6 @@
 import {IpcMainEvent, IpcMainInvokeEvent} from 'electron';
 import {videoFormat} from 'ytdl-core';
-import {FileExtension} from './types';
+import {Extensions} from '../../typings/types';
 
 
 export interface FFmpegProgress {
@@ -21,7 +21,7 @@ export interface IpcMainHandler {
 export interface RecordingMetadata {
 	audioBitrate: number;
 	recordingDurationSec: number;
-	recordingExtension: FileExtension;
+	recordingExtension: Extensions;
 	recordingID: string;
 	videoQuality: string;
 }

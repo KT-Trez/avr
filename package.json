@@ -100,7 +100,7 @@
     "youtube download"
   ],
   "license": "Beerware",
-  "main": "build_core/main.js",
+  "main": "build_core/src_core/main.js",
   "name": "youtube-downloader",
   "os": [],
   "private": true,
