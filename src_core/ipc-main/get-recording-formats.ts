@@ -1,7 +1,7 @@
 import {IpcMainInvokeEvent} from 'electron';
 import {videoFormat} from 'ytdl-core';
+import {IpcMainHandler} from '../../typings/interfaces-core';
 import LocalCache from '../services/LocalCache';
-import {IpcMainHandler} from '../types/interfaces';
 
 
 const YTDownload = require('ytdl-core');

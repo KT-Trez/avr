@@ -7,7 +7,7 @@
     "module": "commonjs",
     "moduleResolution": "Node",
     "noImplicitAny": true,
-    "outDir": "build/core",
+    "outDir": "build",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,

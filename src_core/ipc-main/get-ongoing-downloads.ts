@@ -1,5 +1,5 @@
+import {IpcMainHandler} from '../../typings/interfaces-core';
 import LocalCache from '../services/LocalCache';
-import {IpcMainHandler} from '../types/interfaces';
 
 
 const handler: IpcMainHandler = {

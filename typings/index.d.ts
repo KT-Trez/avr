@@ -1,5 +1,5 @@
 import {videoFormat} from 'ytdl-core';
-import {RecordingMetadata} from '../src_core/types/interfaces';
+import {RecordingMetadata} from '../src_core/types/interfaces-core';
 import {ProgressAction, ProgressType} from './enums';
 import {SizeUnits} from './types';
 

@@ -1,11 +1,11 @@
-//noinspection JSIgnoredPromiseFromCall
-
-import * as os from 'os';
-import * as path from 'path';
+import os from 'os';
+import path from 'path';
 import {parentPort, workerData} from 'worker_threads';
 import {videoFormat} from 'ytdl-core';
+import {YT_DL} from '../../typings';
+import {FFmpegProgress, RecordingMetadata} from '../../typings/interfaces-core';
 import {convertTimestampToSeconds} from '../tools/convertTimestampToSeconds';
-import {FFmpegProgress, RecordingMetadata, WorkerMessage} from '../types/interfaces';
+import WorkerMessage = YT_DL.Core.Workers.WorkerMessage;
 
 
 const ffmpeg = require('fluent-ffmpeg');
@@ -39,24 +39,24 @@ const downloadRecording = async (recordingURL: string, recordingFormat: videoFor
 			filter: (vFormat: videoFormat) => vFormat.audioBitrate === recordingFormat.audioBitrate && vFormat.qualityLabel === recordingFormat.qualityLabel && vFormat.codecs === recordingFormat.codecs
 		}))
 		.on('start', (command: string) => {
-			console.info('[INFO] Starting ffmpeg video search with: ' + command);
+			console.info('[INFO] Starting ffmpeg video download with: ' + command);
 
-			sendToMainProcess('search-started', command, savePath);
+			sendToMainProcess('download-started', command, savePath);
 		})
 		.on('error', (err: Error) => {
-			console.error('[ERROR] Cannot search video: ' + err.message);
+			console.error('[ERROR] Cannot download video: ' + err.message);
 
-			sendToMainProcess('search-error', err);
+			sendToMainProcess('download-error', err);
 		})
 		.on('progress', (progress: FFmpegProgress) => {
 			if (progress.percent)
-				downloadPercent = progress.percent
+				downloadPercent = progress.percent;
 			else
 				downloadPercent = convertTimestampToSeconds(progress.timemark) / recodingMetadata.recordingDurationSec * 100;
 			if (downloadPercent >= downloadProgressHelper + 1) {
-				console.info('[INFO] Recording search progress: ' + downloadPercent);
+				console.info('[INFO] Recording download progress: ' + downloadPercent);
 
-				sendToMainProcess('search-progress', downloadPercent, recodingMetadata.recordingExtension);
+				sendToMainProcess('download-progress', downloadPercent, recodingMetadata.recordingExtension);
 				downloadProgressHelper += 1;
 			}
 		})
@@ -64,7 +64,7 @@ const downloadRecording = async (recordingURL: string, recordingFormat: videoFor
 			console.error('[SUCCESS] Recording ' + recodingMetadata.recordingExtension + ' downloaded.');
 
 			downloadPercent = 100;
-			sendToMainProcess('search-progress', downloadPercent, recodingMetadata.recordingExtension);
+			sendToMainProcess('download-progress', downloadPercent, recodingMetadata.recordingExtension);
 			process.exit(0);
 		})
 		.save(savePath);

@@ -1,5 +1,5 @@
 import {IpcMainInvokeEvent} from 'electron';
-import {IpcMainHandler} from '../types/interfaces';
+import {IpcMainHandler} from '../../typings/interfaces-core';
 
 
 const YTSearch = require('yt-search');

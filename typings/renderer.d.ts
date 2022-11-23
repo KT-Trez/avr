@@ -1,10 +1,9 @@
-import * as Electron from 'electron';
+import {IpcRendererEvent} from 'electron';
 import {VideoSearchResult} from 'yt-search';
 import {videoFormat} from 'ytdl-core';
 import {NotificationSeverity} from './enums';
 import {YT_DL} from './index';
 import {NotificationVariant} from './types';
-import IpcRendererEvent = Electron.IpcRendererEvent;
 import FileStats = YT_DL.Core.Stats.FileStats;
 
 

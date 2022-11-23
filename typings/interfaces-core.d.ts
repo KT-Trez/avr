@@ -1,6 +1,6 @@
 import {IpcMainEvent, IpcMainInvokeEvent} from 'electron';
 import {videoFormat} from 'ytdl-core';
-import {Extensions} from '../../typings/types';
+import {Extensions} from './types';
 
 
 export interface FFmpegProgress {

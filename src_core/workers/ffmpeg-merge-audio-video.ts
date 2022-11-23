@@ -1,7 +1,9 @@
 // todo: fix imports
-import * as fs from 'fs';
+import fs from 'fs';
 import {parentPort, workerData} from 'worker_threads';
-import {FFmpegProgress, WorkerMessage} from '../types/interfaces';
+import {YT_DL} from '../../typings';
+import {FFmpegProgress} from '../../typings/interfaces-core';
+import WorkerMessage = YT_DL.Core.Workers.WorkerMessage;
 
 
 const ffmpeg = require('fluent-ffmpeg');

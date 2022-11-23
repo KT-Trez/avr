@@ -3,9 +3,9 @@ import fs from 'fs';
 import path from 'path';
 import {YT_DL} from '../../typings';
 import {NotificationSeverity} from '../../typings/enums';
+import {IpcMainHandler} from '../../typings/interfaces-core';
 import {NotificationVariant} from '../../typings/types';
 import {win} from '../main';
-import {IpcMainHandler} from '../types/interfaces';
 
 
 class Messenger {

@@ -61,6 +61,6 @@ export default class CustomBrowserWindow {
 		if (!app.isPackaged)
 			this.win.loadURL(process.env.NODE_GUI_ORIGIN ?? process.env.npm_package_config_default_origin!);
 		else
-			this.win.loadFile(path.resolve(__dirname, '../../build/index.html'));
+			this.win.loadFile(path.resolve(__dirname, '../../' + (app.isPackaged ? '' : 'build') + '/index.html'));
 	}
 }

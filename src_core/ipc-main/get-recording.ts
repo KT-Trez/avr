@@ -2,10 +2,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {videoFormat} from 'ytdl-core';
 import {NotificationSeverity, ProgressAction, ProgressType} from '../../typings/enums';
+import {IpcMainHandler} from '../../typings/interfaces-core';
 import {Messenger} from '../classes/Messenger';
 import LocalCache from '../services/LocalCache';
-import {IpcMainHandler} from '../types/interfaces';
-import {downloadsPath} from '../utils/paths';
+import {getPath} from '../tools/getPath';
 
 
 const YTDownload = require('ytdl-core');
@@ -18,7 +18,7 @@ const handler: IpcMainHandler = {
 
 		const videoID = YTDownload.getVideoID(url);
 		const saveName = fileExtension + '-' + (format.audioBitrate ?? 0) + 'x' + (format.qualityLabel ?? '0p') + '-' + videoID + '-' + new Date().getTime() + '.' + fileExtension;
-		const savePath = path.resolve(downloadsPath, saveName);
+		const savePath = path.join(getPath('downloads'), saveName);
 
 		const downloadID = videoID + '-' + (format.audioBitrate ?? 0) + 'x' + (format.qualityLabel ?? '0p') + '-' + format.codecs;
 		const downloadFlag = LocalCache.readRecordingIsDownloaded(downloadID);

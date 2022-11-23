@@ -1,12 +1,16 @@
-import * as path from 'path';
+import path from 'path';
 import {Worker} from 'worker_threads';
 import {videoFormat} from 'ytdl-core';
+import {YT_DL} from '../../typings';
 import {NotificationSeverity, ProgressAction, ProgressType} from '../../typings/enums';
+import {IpcMainHandler} from '../../typings/interfaces-core';
 import {Extensions} from '../../typings/types';
 import {Messenger} from '../classes/Messenger';
 import LocalCache from '../services/LocalCache';
-import {DownloadWorkerData, IpcMainHandler, MergeWorkerData, WorkerMessage} from '../types/interfaces';
-import {downloadsPath, workersPath} from '../utils/paths';
+import {getPath} from '../tools/getPath';
+import DownloadWorkerData = YT_DL.Core.Workers.DownloadWorkerData;
+import WorkerMessage = YT_DL.Core.Workers.WorkerMessage;
+import MergeWorkerData = YT_DL.Core.Workers.MergeWorkerData;
 
 
 const ffmpeg = require('fluent-ffmpeg');
@@ -76,7 +80,7 @@ const handler: IpcMainHandler = {
 				};
 
 				// TODO: workers doesn't seem to work in asar archives, find a workaround that let's pack the app in asar
-				const worker = new Worker(path.resolve(workersPath, 'ffmpeg-search.js'), {workerData})
+				const worker = new Worker(path.join(getPath('workers'), 'ffmpeg-download.js'), {workerData})
 					.on('exit', exitCode => {
 						// todo: move to debug only
 						console.info('[INFO] Worker exited with code: ' + exitCode);
@@ -123,9 +127,9 @@ const handler: IpcMainHandler = {
 
 		const workerData: MergeWorkerData = {
 			recordingPaths: paths,
-			savePath: path.resolve(downloadsPath, saveName)
+			savePath: path.join(getPath('downloads'), saveName)
 		};
-		const worker = new Worker(path.resolve(workersPath, 'ffmpeg-merge-audio-video.js'), {workerData})
+		const worker = new Worker(path.join(getPath('workers'), 'ffmpeg-merge-audio-video.js'), {workerData})
 			.on('exit', exitCode => {
 				// todo: move to debug only
 				console.info('[INFO] Merge worker exited with code: ' + exitCode);
