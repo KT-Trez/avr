@@ -22,9 +22,7 @@ app.on('ready', () => {
 		autoHideMenuBar: app.isPackaged,
 		backgroundColor: '#333',
 		center: true,
-		//thickFrame: true,
-		title: app.getName() + ' v' + app.getVersion(),
-		//titleBarStyle: 'hidden'
+		title: app.getName() + ' v' + app.getVersion()
 	};
 
 	const preferences: WebPreferences = {

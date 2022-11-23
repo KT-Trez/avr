@@ -9,8 +9,8 @@ import {Messenger} from '../classes/Messenger';
 import LocalCache from '../services/LocalCache';
 import {getPath} from '../tools/getPath';
 import DownloadWorkerData = YT_DL.Core.Workers.DownloadWorkerData;
-import WorkerMessage = YT_DL.Core.Workers.WorkerMessage;
 import MergeWorkerData = YT_DL.Core.Workers.MergeWorkerData;
+import WorkerMessage = YT_DL.Core.Workers.WorkerMessage;
 
 
 const ffmpeg = require('fluent-ffmpeg');
@@ -43,7 +43,7 @@ const handler: IpcMainHandler = {
 		const saveName = 'combo-' + (audioFormat ? audioFormat.details.audioBitrate! : 0) + 'x' + (videoFormat ? videoFormat.details.qualityLabel : '0p') + '-' + recordingID + '-' + new Date().getTime() + '.mp4';
 
 		LocalCache.cacheOngoingDownload(saveName);
-		Messenger.notify('Download started: ' + recordingID, NotificationSeverity.Info);
+		Messenger.notify('Download started [' + recordingID + ']', NotificationSeverity.Info);
 
 		// todo: queue start notification
 
@@ -94,10 +94,10 @@ const handler: IpcMainHandler = {
 					})
 					.on('message', (message: WorkerMessage) => {
 						switch (message.type) {
-							case 'search-started':
+							case 'download-started':
 								paths.push(message.details[1]);
 								break;
-							case 'search-progress':
+							case 'download-progress':
 								switch (message.details[1]) {
 									case 'mp3':
 									case 'wav':
@@ -112,10 +112,10 @@ const handler: IpcMainHandler = {
 									{action: ProgressAction.Download, type: ProgressType.Video, value: videoPercent}
 								]);
 								break;
-							case 'search-error':
+							case 'download-error':
 								// todo: retry worker task
 								worker.terminate();
-								Messenger.notify('Part of the download ' + recordingID + ' failed', NotificationSeverity.Error);
+								Messenger.notify('Part of the download [' + recordingID + '] failed', NotificationSeverity.Error);
 								break;
 						}
 					})
@@ -136,7 +136,7 @@ const handler: IpcMainHandler = {
 
 				if (exitCode === 0) {
 					LocalCache.clearOngoingDownload(saveName);
-					Messenger.notify('Video ' + recordingID + ' saved as ' + saveName, NotificationSeverity.Success);
+					Messenger.notify('Video [' + recordingID + '] saved as [' + saveName + ']', NotificationSeverity.Success);
 				}
 			})
 			.on('error', err => {
@@ -152,9 +152,9 @@ const handler: IpcMainHandler = {
 							value: mergePercent
 						}]);
 						break;
-					case 'search-error':
+					case 'download-error':
 						worker.terminate();
-						Messenger.notify('Merging audio and video in ' + recordingID + ' failed', NotificationSeverity.Error);
+						Messenger.notify('Merging audio and video in [' + recordingID + '] failed', NotificationSeverity.Error);
 						break;
 				}
 			})

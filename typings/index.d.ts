@@ -1,7 +1,7 @@
 import {videoFormat} from 'ytdl-core';
 import {RecordingMetadata} from '../src_core/types/interfaces-core';
-import {ProgressAction, ProgressType} from './enums';
-import {SizeUnits} from './types';
+import {NotificationSeverity, ProgressAction, ProgressType} from './enums';
+import {NotificationVariant, SizeUnits} from './types';
 
 
 export declare module YT_DL {
@@ -45,11 +45,25 @@ export declare module YT_DL {
 	}
 
 	export module GUI {
+		export module Events {
+			export interface CustomEventMap {
+				notification: CustomEvent<YT_DL.GUI.Notification>;
+				'notification:progress': CustomEvent<undefined>;
+			}
+		}
+
 		export module Formats {
 			export interface SelectedFormat {
 				details: videoFormat;
 				type: 'audio' | 'video';
 			}
+		}
+
+		export interface Notification {
+			message: string;
+			severity: NotificationSeverity;
+			title?: string;
+			variant?: NotificationVariant;
 		}
 	}
 }

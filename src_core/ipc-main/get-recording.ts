@@ -27,12 +27,12 @@ const handler: IpcMainHandler = {
 		else
 			LocalCache.cacheRecordingIsDownloaded(downloadID, true);
 
-		Messenger.notify('Downloading: ' + videoID, NotificationSeverity.Info);
+		Messenger.notify('Downloading: [' + videoID +']', NotificationSeverity.Info);
 
-		console.info('[INFO] Starting recording search.');
+		console.info('[INFO] Starting recording download.');
 		LocalCache.cacheOngoingDownload(saveName);
 
-		// todo: queue start notification
+		Messenger.notifyAboutDownload([{action: ProgressAction.Download, type: ProgressType.AudioAndVideo}], videoID, url);
 
 		let recordingPercent = 0;
 		let recordingProgress = 0;
@@ -42,7 +42,7 @@ const handler: IpcMainHandler = {
 			.on('progress', (segmentSize: number, segmentsSum: number, totalSegments: number) => {
 				recordingPercent = segmentsSum / totalSegments * 100;
 				if (recordingPercent >= recordingProgress + 1) {
-					console.info('[INFO] Recording search progress: ' + recordingPercent);
+					console.info('[INFO] Recording download progress: ' + recordingPercent);
 					Messenger.notifyProgress(videoID, [{
 						action: ProgressAction.Download,
 						type: ProgressType.AudioAndVideo,
@@ -52,17 +52,17 @@ const handler: IpcMainHandler = {
 				}
 			})
 			.on('error', (err: Error) => {
-				console.error('[ERROR] Cannot search audio: ' + err.message);
-				Messenger.notify('Error, download ' + videoID + ' unsuccessful', NotificationSeverity.Error);
+				console.error('[ERROR] Cannot download audio: ' + err.message);
+				Messenger.notify('Error, download [' + videoID + '] unsuccessful', NotificationSeverity.Error);
 			})
 			.pipe(fs.createWriteStream(savePath)
 				.on('error', (err: Error) => {
 					console.error('[ERROR] Cannot save audio: ' + err.message);
-					Messenger.notify('Error, cannot save ' + videoID, NotificationSeverity.Error);
+					Messenger.notify('Error, cannot save download [' + videoID + ']', NotificationSeverity.Error);
 				})
 				.on('finish', () => {
 					console.info('[SUCCESS] Downloads: ' + savePath);
-					Messenger.notify('Download ' + videoID + ' ended', NotificationSeverity.Success);
+					Messenger.notify('Download [' + videoID + '] ended', NotificationSeverity.Success);
 				}));
 	},
 	name: 'video:download',

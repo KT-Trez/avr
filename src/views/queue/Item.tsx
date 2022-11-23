@@ -4,20 +4,18 @@ import DownloadingIcon from '@mui/icons-material/Downloading';
 import MergeIcon from '@mui/icons-material/Merge';
 import {Grid, IconButton, Paper, Stack, Typography} from '@mui/material';
 import React from 'react';
-import {QueueEntryMetadata} from '../../../typings/interfaces';
-import QueueService from '../../services/QueueService';
+import {QueueItem} from '../../services/Queue';
 import Progress from './Progress';
 
 
 interface ItemProps {
-	entryMetadata: QueueEntryMetadata;
-	updateQueue: () => void;
+	entryMetadata: QueueItem;
+	removeFromQueue: () => void;
 }
 
-function Item({entryMetadata, updateQueue}: ItemProps) {
+function Item({entryMetadata}: ItemProps) {
 	const close = () => {
-		QueueService.deleteEntry(entryMetadata.name);
-		updateQueue();
+		// todo: implement
 	};
 
 	return (
@@ -34,24 +32,24 @@ function Item({entryMetadata, updateQueue}: ItemProps) {
 				<Grid container>
 					<Grid item xs>
 						<Stack>
-							<Progress isDisabled={!entryMetadata.hasAudio}
-									  isDone={entryMetadata.isAudioDownloaded}
-									  name={'Audio'} percent={entryMetadata.audioProgress}
+							<Progress isDisabled={true}
+									  isDone={false}
+									  name={'Audio'} percent={0}
 									  progressIcon={<DownloadingIcon color={'disabled'}/>}/>
-							<Progress isDisabled={!entryMetadata.hasVideo}
-									  isDone={entryMetadata.isVideoDownloaded}
+							<Progress isDisabled={true}
+									  isDone={false}
 									  name={'Video'}
-									  percent={entryMetadata.videoProgress}
+									  percent={0}
 									  progressIcon={<DownloadingIcon color={'disabled'}/>}/>
-							<Progress isDisabled={!entryMetadata.hasMerge}
-									  isDone={entryMetadata.isMerged}
+							<Progress isDisabled={true}
+									  isDone={false}
 									  name={'Merge'}
-									  percent={entryMetadata.mergeProgress}
+									  percent={0}
 									  progressIcon={<MergeIcon color={'disabled'} sx={{transform: 'rotate(90deg)'}}/>}/>
 						</Stack>
 					</Grid>
 					<Grid item sx={{alignItems: 'center', display: 'flex', justifyContent: 'center'}} xs={1}>
-						{entryMetadata.isDownloaded && entryMetadata.isMerged ?
+						{Math.random() >= 0.5 ?
 							<CheckCircleIcon color={'success'} fontSize={'large'}/>
 							:
 							<DownloadingIcon color={'disabled'} fontSize={'large'}/>
@@ -59,7 +57,7 @@ function Item({entryMetadata, updateQueue}: ItemProps) {
 					</Grid>
 				</Grid>
 			</Stack>
-			<IconButton disabled={!entryMetadata.isDownloaded || !entryMetadata.isMerged} onClick={close} size={'small'} sx={{position: 'absolute', right: 1, top: 1}}>
+			<IconButton disabled={true} onClick={close} size={'small'} sx={{position: 'absolute', right: 1, top: 1}}>
 				<CloseIcon sx={{fontSize: 15}}/>
 			</IconButton>
 		</Paper>

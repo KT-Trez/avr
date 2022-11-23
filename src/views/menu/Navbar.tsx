@@ -1,17 +1,18 @@
-import DownloadIcon from '@mui/icons-material/Download';
-import FolderIcon from '@mui/icons-material/Folder';
-import ListIcon from '@mui/icons-material/List';
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import SearchIcon from '@mui/icons-material/Search';
 import {Tab, Tabs} from '@mui/material';
-import React, {useEffect} from 'react';
+import React, {SyntheticEvent, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
 
 export default function Navbar() {
-	const [activeTab, setActiveTab] = React.useState(0);
 	const navigate = useNavigate();
 
-	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-		setActiveTab(newValue);
+	const [activeTab, setActiveTab] = useState(0);
+
+	const handleChange = (event: SyntheticEvent, tab: number) => {
+		setActiveTab(tab);
 	};
 
 	useEffect(() => {
@@ -26,16 +27,15 @@ export default function Navbar() {
 				navigate('/tabs/downloaded');
 				break;
 		}
-		// eslint-disable-next-line
 	}, [activeTab]);
 
 	return (
-		<React.Fragment>
+		<>
 			<Tabs onChange={handleChange} value={activeTab} variant={'fullWidth'}>
-				<Tab icon={<DownloadIcon fontSize={'small'}/>} iconPosition={'end'} label={'Download'}/>
-				<Tab icon={<ListIcon fontSize={'small'}/>} iconPosition={'end'} label={'Queue'}/>
-				<Tab icon={<FolderIcon fontSize={'small'}/>} iconPosition={'end'} label={'Downloaded'}/>
+				<Tab icon={<SearchIcon fontSize={'small'}/>} iconPosition={'end'} label={'Search'}/>
+				<Tab icon={<FormatListBulletedIcon fontSize={'small'}/>} iconPosition={'end'} label={'Queue'}/>
+				<Tab icon={<DownloadForOfflineIcon fontSize={'small'}/>} iconPosition={'end'} label={'Downloads'}/>
 			</Tabs>
-		</React.Fragment>
+		</>
 	);
 };

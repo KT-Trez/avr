@@ -11,7 +11,7 @@ const handler: IpcMainHandler = {
 	execute: (event, filePath: string) => {
 		fs.unlink(path.join(getPath('downloads'), filePath), () => {
 			console.info('[INFO] Resource deleted (' + filePath + ')');
-			Messenger.notify('Deleted file: ' + filePath, NotificationSeverity.Info);
+			Messenger.notify('Deleted file [' + filePath + ']', NotificationSeverity.Info);
 		});
 		LocalCache.clearRecordingIsDownloaded(filePath);
 	},

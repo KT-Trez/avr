@@ -1,25 +1,39 @@
 import {CssBaseline} from '@mui/material';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {HashRouter, Route, Routes} from 'react-router-dom';
+import {YT_DL} from '../typings';
+import Messenger from './services/Messenger';
 import Downloads from './views/downloads/Downloads';
 import Header from './views/menu/Header';
 import Navbar from './views/menu/Navbar';
+import Notifier from './views/menu/Notifier';
 import Queue from './views/queue/Queue';
 import Search from './views/search/Search';
 
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-
 
 export default function App() {
-	return (
-		<React.Fragment>
+	const [notification, setNotification] = useState<YT_DL.GUI.Notification | null>(null);
 
+	const handleNotification = (event: CustomEvent<YT_DL.GUI.Notification>) => {
+		setNotification(event.detail);
+	};
+
+	useEffect(() => {
+		Messenger.emitter.addEventListener('notification', handleNotification);
+
+		return () => {
+			Messenger.emitter.removeEventListener('notification', handleNotification);
+		};
+	}, []);
+
+	// todo: check possibility of implementing https://reactdesktop.js.org/
+	return (
+		<>
 			<HashRouter>
 				<Header/>
 				<Navbar/>
+
+				<Notifier notification={notification}/>
 
 				<Routes>
 					<Route element={<Search/>} path={'/'}/>
@@ -30,6 +44,6 @@ export default function App() {
 				</Routes>
 			</HashRouter>
 			<CssBaseline/>
-		</React.Fragment>
+		</>
 	);
 };

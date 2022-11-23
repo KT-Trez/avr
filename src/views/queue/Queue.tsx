@@ -1,42 +1,44 @@
 import {Stack, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
-import QueueService from '../../services/QueueService';
-import Header from './Header';
+import NoContentView from '../../components/NoContentView';
+import TitleBar from '../../components/TitleBar';
+import {QueueItem} from '../../services/Queue';
 import Item from './Item';
 
-
+// important: reimplement
 function Queue() {
-	const [queue, setQueue] = useState(QueueService.getQueue());
+	const [queue, setQueue] = useState<QueueItem[]>([]);
 
-	const updateQueue = () => {
-		setQueue(QueueService.getQueue());
+	const removeProgress = () => {
+		//setQueue();
 	};
 
 	useEffect(() => {
-		// IPCRenderer.getInstance().on('search-advanced-progress', updateQueue);
-		// IPCRenderer.getInstance().on('search-advanced-start', updateQueue);
+		// todo: attach to queue listener
+
 		return () => {
-			// IPCRenderer.getInstance().removeListener('search-advanced-progress', updateQueue);
-			// IPCRenderer.getInstance().removeListener('search-advanced-start', updateQueue);
+			// todo: detach to queue listener
 		};
 	}, []);
 
 	return (
-		<React.Fragment>
-			<Header/>
+		<NoContentView emptyText={'Downloads queue is empty.'}
+					   header={
+						   <TitleBar>
+							   <Typography variant={'h6'}>
+								   Downloads queue
+							   </Typography>
+						   </TitleBar>
+					   }
+					   isEmpty={queue.length === 0}
+					   isLoading={false}>
 
-			<Stack alignItems={'center'} sx={{pb: 1}}>
-				{queue.length === 0 ?
-					<Typography align={'center'} color={'text.secondary'} sx={{fontStyle: 'italic', mt: 4}} variant={'body2'}>
-						Downloads queue is empty.
-					</Typography>
-					:
-					queue.map(queueEntry => {
-						return (<Item entryMetadata={queueEntry} key={queueEntry.name} updateQueue={updateQueue}/>);
-					})
-				}
+			<Stack alignItems={'center'}>
+				{queue.map(entry => <Item entryMetadata={entry}
+										  key={entry.name}
+										  removeFromQueue={removeProgress}/>)}
 			</Stack>
-		</React.Fragment>
+		</NoContentView>
 	);
 }
 

@@ -10,14 +10,12 @@ import {YT_DL} from '../../../typings';
 
 interface FileProps {
 	metadata: YT_DL.Core.Stats.FileStats;
-	openDialog: (isOpen: boolean) => void;
-	setDeleteContext: (deleteContext: string) => void;
+	setPathOfFileToRemove: (deleteContext: string) => void;
 }
 
-function File({metadata, openDialog, setDeleteContext}: FileProps) {
-	const deleteFile = () => {
-		setDeleteContext(metadata.name);
-		openDialog(true);
+function File({metadata, setPathOfFileToRemove}: FileProps) {
+	const removeFile = () => {
+		setPathOfFileToRemove(metadata.name);
 	};
 
 	const openFile = () => {
@@ -45,7 +43,7 @@ function File({metadata, openDialog, setDeleteContext}: FileProps) {
 				<IconButton onClick={openFile}>
 					<LaunchIcon/>
 				</IconButton>
-				<IconButton onClick={deleteFile}>
+				<IconButton onClick={removeFile}>
 					<DeleteForeverIcon color={'error'}/>
 				</IconButton>
 			</TableCell>

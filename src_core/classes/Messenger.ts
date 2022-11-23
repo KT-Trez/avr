@@ -2,7 +2,7 @@ import {ipcMain} from 'electron';
 import fs from 'fs';
 import path from 'path';
 import {YT_DL} from '../../typings';
-import {NotificationSeverity} from '../../typings/enums';
+import {NotificationSeverity, ProgressAction, ProgressType} from '../../typings/enums';
 import {IpcMainHandler} from '../../typings/interfaces-core';
 import {NotificationVariant} from '../../typings/types';
 import {win} from '../main';
@@ -16,11 +16,20 @@ class Messenger {
 		win.webContents.send('notification', message, severity, title, variant);
 	}
 
+	public static notifyAboutDownload(actions: { action: ProgressAction, type: ProgressType }[], id: string, name: string) {
+		if (!win.webContents)
+			throw Error('Window not initialized');
+
+		// important: reimplement queue
+		//win.webContents.send('notification:downloadStart', actions, id, name);
+	}
+
 	public static notifyProgress(id: string, progresses: YT_DL.Core.Stats.Progress[]) {
 		if (!win.webContents)
 			throw Error('Window not initialized');
 
-		win.webContents.send('notification:progress', id, progresses);
+		// important: reimplement queue
+		//win.webContents.send('notification:progress', id, progresses);
 	}
 }
 

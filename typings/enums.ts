@@ -1,8 +1,8 @@
 export enum NotificationSeverity {
-	Error,
-	Info,
-	Success,
-	Warning
+	Error = 'error',
+	Info = 'info',
+	Success = 'success',
+	Warning = 'warning'
 }
 
 export enum ProgressAction {
