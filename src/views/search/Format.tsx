@@ -12,6 +12,7 @@ interface FormatProps {
 	recordingFormat: videoFormat;
 	setAdvancedAudioFormat: Function;
 	setAdvancedVideoFormat: Function;
+	videoTitle: string;
 	videoURL: string;
 }
 
@@ -22,6 +23,7 @@ function Format({
 					recordingFormat,
 					setAdvancedAudioFormat,
 					setAdvancedVideoFormat,
+					videoTitle,
 					videoURL
 				}: FormatProps) {
 	// todo: one active state for whole video ?
@@ -44,7 +46,7 @@ function Format({
 	};
 
 	const downloadRecording = () => {
-		window.coreAPI.downloadVideo(recordingFormat, videoURL);
+		window.coreAPI.downloadMedia(recordingFormat, videoTitle, videoURL);
 	};
 
 	useEffect(() => {

@@ -1,14 +1,15 @@
 import {ipcMain} from 'electron';
 import fs from 'fs';
 import path from 'path';
-import {YT_DL} from '../../typings';
-import {NotificationSeverity, ProgressAction, ProgressType} from '../../typings/enums';
+import {NotificationSeverity} from '../../typings/enums';
 import {IpcMainHandler} from '../../typings/interfaces-core';
 import {NotificationVariant} from '../../typings/types';
 import {win} from '../main';
 
 
 class Messenger {
+	public static lastProgresUpdate = 0;
+
 	public static notify(message: string, severity: NotificationSeverity, title?: string, variant?: NotificationVariant) {
 		if (!win.webContents)
 			throw Error('Window not initialized');
@@ -16,20 +17,22 @@ class Messenger {
 		win.webContents.send('notification', message, severity, title, variant);
 	}
 
-	public static notifyAboutDownload(actions: { action: ProgressAction, type: ProgressType }[], id: string, name: string) {
+	public static notifyQueueEnd() {
 		if (!win.webContents)
 			throw Error('Window not initialized');
 
-		// important: reimplement queue
-		//win.webContents.send('notification:downloadStart', actions, id, name);
+		win.webContents.send('notify:queueUpdate');
 	}
 
-	public static notifyProgress(id: string, progresses: YT_DL.Core.Stats.Progress[]) {
+	public static notifyQueueProgress() {
 		if (!win.webContents)
 			throw Error('Window not initialized');
 
-		// important: reimplement queue
-		//win.webContents.send('notification:progress', id, progresses);
+		if (new Date().getTime() <= this.lastProgresUpdate + 1500)
+			return;
+
+		win.webContents.send('notify:queueUpdate');
+		this.lastProgresUpdate = new Date().getTime();
 	}
 }
 

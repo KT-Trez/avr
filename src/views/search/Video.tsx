@@ -50,7 +50,7 @@ function Video({video}: VideoProps) {
 			{details: advancedAudioFormat, type: 'audio'},
 			{details: advancedVideoFormat, type: 'video'}
 		];
-		window.coreAPI.downloadPartialVideo(formats, video.duration.seconds, video.url);
+		window.coreAPI.downloadAndMergeMedia(formats, video.duration.seconds, video.title, video.url);
 	};
 
 	const showDescription = () => {
@@ -207,9 +207,11 @@ function Video({video}: VideoProps) {
 														hasAdvancedAudioFormat={advancedAudioFormat !== null}
 														hasAdvancedVideoFormat={advancedVideoFormat !== null}
 														key={(option.audioBitrate ?? 0) + 'x' + (option.qualityLabel ?? '0p') + 'x' + option.codecs + 'x' + video.videoId}
-														recordingFormat={option} videoURL={video.url}
+														recordingFormat={option}
 														setAdvancedAudioFormat={setAdvancedAudioFormat}
-														setAdvancedVideoFormat={setAdvancedVideoFormat}/>);
+														setAdvancedVideoFormat={setAdvancedVideoFormat}
+														videoTitle={video.title}
+														videoURL={video.url}/>);
 									})}
 								</TableBody>
 							</Table>

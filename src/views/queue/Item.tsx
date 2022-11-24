@@ -1,63 +1,41 @@
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import DownloadingIcon from '@mui/icons-material/Downloading';
-import MergeIcon from '@mui/icons-material/Merge';
-import {Grid, IconButton, Paper, Stack, Typography} from '@mui/material';
+import {IconButton, Paper, Stack} from '@mui/material';
 import React from 'react';
-import {QueueItem} from '../../services/Queue';
+import {YT_DL} from '../../../typings';
+import ItemDescription from './ItemDescription';
 import Progress from './Progress';
 
 
 interface ItemProps {
-	entryMetadata: QueueItem;
-	removeFromQueue: () => void;
+	item: YT_DL.Core.Cache.Download;
+	removeFromQueue: (id: string) => void;
 }
 
-function Item({entryMetadata}: ItemProps) {
+function Item({item, removeFromQueue}: ItemProps) {
 	const close = () => {
-		// todo: implement
+		removeFromQueue(item.id);
 	};
 
 	return (
 		<Paper sx={{mt: 1, p: 1, position: 'relative', width: '95%'}}>
 			<Stack>
-				<Stack alignItems={'flex-end'} direction={'row'}>
-					<Typography variant={'subtitle2'}>
-						File:
-					</Typography>
-					<Typography sx={{ml: 1}} variant={'body2'}>
-						{entryMetadata.name}
-					</Typography>
+				<ItemDescription description={item.name} title={'Media:'}/>
+				<ItemDescription description={item.status} title={'Status:'}/>
+
+				<Stack sx={{p: 1}}>
+					{/* progress icons
+						download:
+							<DownloadingIcon/>
+						merge:
+							<MergeIcon sx={{transform: 'rotate(90deg)'}}/>
+					*/}
+					<Progress isDone={item.hasFinished}
+							  percent={item.progress}
+							  progressIcon={<DownloadingIcon color={'disabled'}/>}/>
 				</Stack>
-				<Grid container>
-					<Grid item xs>
-						<Stack>
-							<Progress isDisabled={true}
-									  isDone={false}
-									  name={'Audio'} percent={0}
-									  progressIcon={<DownloadingIcon color={'disabled'}/>}/>
-							<Progress isDisabled={true}
-									  isDone={false}
-									  name={'Video'}
-									  percent={0}
-									  progressIcon={<DownloadingIcon color={'disabled'}/>}/>
-							<Progress isDisabled={true}
-									  isDone={false}
-									  name={'Merge'}
-									  percent={0}
-									  progressIcon={<MergeIcon color={'disabled'} sx={{transform: 'rotate(90deg)'}}/>}/>
-						</Stack>
-					</Grid>
-					<Grid item sx={{alignItems: 'center', display: 'flex', justifyContent: 'center'}} xs={1}>
-						{Math.random() >= 0.5 ?
-							<CheckCircleIcon color={'success'} fontSize={'large'}/>
-							:
-							<DownloadingIcon color={'disabled'} fontSize={'large'}/>
-						}
-					</Grid>
-				</Grid>
 			</Stack>
-			<IconButton disabled={true} onClick={close} size={'small'} sx={{position: 'absolute', right: 1, top: 1}}>
+			<IconButton onClick={close} size={'small'} sx={{position: 'absolute', right: 1, top: 1}}>
 				<CloseIcon sx={{fontSize: 15}}/>
 			</IconButton>
 		</Paper>

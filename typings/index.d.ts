@@ -6,6 +6,19 @@ import {NotificationVariant, SizeUnits} from './types';
 
 export declare module YT_DL {
 	export module Core {
+		export module Cache {
+			export interface Download {
+				error?: Error;
+				hasError: boolean;
+				hasFinished: boolean;
+				id: string;
+				isSubscribed: boolean;
+				name: string;
+				progress: number;
+				status: string;
+			}
+		}
+
 		export module Stats {
 			export interface Progress {
 				action: ProgressAction;
@@ -37,7 +50,7 @@ export declare module YT_DL {
 				savePath: string;
 			}
 
-			export interface WorkerMessage {
+			export interface Message {
 				details: any[];
 				type: string;
 			}
@@ -48,7 +61,7 @@ export declare module YT_DL {
 		export module Events {
 			export interface CustomEventMap {
 				notification: CustomEvent<YT_DL.GUI.Notification>;
-				'notification:progress': CustomEvent<undefined>;
+				'queue:update': CustomEvent<undefined>;
 			}
 		}
 

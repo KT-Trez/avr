@@ -3,7 +3,6 @@ import path from 'path';
 import {NotificationSeverity} from '../../typings/enums';
 import {IpcMainHandler} from '../../typings/interfaces-core';
 import {Messenger} from '../classes/Messenger';
-import LocalCache from '../services/LocalCache';
 import {getPath} from '../tools/getPath';
 
 
@@ -13,7 +12,6 @@ const handler: IpcMainHandler = {
 			console.info('[INFO] Resource deleted (' + filePath + ')');
 			Messenger.notify('Deleted file [' + filePath + ']', NotificationSeverity.Info);
 		});
-		LocalCache.clearRecordingIsDownloaded(filePath);
 	},
 	name: 'downloads:delete',
 	type: 'on'
