@@ -2,10 +2,12 @@
 Desktop, electron based app, to download videos from [YouTube](https://www.youtube.com/).
 
 # Download
-To download an app, visit [releases](https://github.com/KT-Trez/yt_downloader/releases) page and select adequate installer.
+To download an app, visit [releases](https://github.com/KT-Trez/YouTube-Downloader/releases) page and select adequate
+installer.
 
 # Usage
-### Download Tab
+
+### Search Tab
 1. Search for videos using keywords from title ex.: `never gonna give you up`
 2. Chose the video and click its download icon to open download menu
    - Simple download
@@ -29,28 +31,25 @@ Progress consist of three parts, but not all of them must be present on selected
 - Video - video's download progress
 - Merge - merging audio with video progress (_advanced mode function_)
 
-### Downloaded Tab
+### Downloads Tab
 Browse your downloaded audio and video files. You can delete them or play using system build-in media player.  
 To view downloads directly in directory, press folder icon next to the `Open in directory` inscription.
 
 # Build from source
+
 1. Install latest version of Node.js
-2. In `client` directory 
-   1. Install dependencies with `npm install`
-   2. Build GUI with `npm run build`
-3. In `electron` directory
-   1. Install dependencies with `npm install`
-   2. Build app with `npm run build`
-   3. Move GUI to app's directory with `npm run production-gui`
-   4. Create release files with `npm run electron-production`
+2. Install dependencies with `npm install`
+3. Build GUI with `npm run build`
+4. Build app's TypeScript files with `npm run build`
+5. Build app with `npm run electron-builder`
 
 # Scripts
-- `client` directory
-  - `npm run build` - React's script; builds .html & .ts files in production mode
-  - `npm run start` - React's script; starts React's development server and listens for changes in files
-- `electron` directory
-  - `npm run build` - compiles typescript files into build directory
-  - `npm run build-watch` - compiles typescript files and listens for changes
-  - `npm run electron-dev` - starts Electron in development mode; by default, app will try to load GUI from [gui directory](./electron/gui), then it will attempt to listen to http://localhost:3000
-  - `npm run electron-production` - builds release files; check **Build from source** section for step-by-step guide
-  - `npm run production-gui` - copies GUI from `client`'s [build directory](./client/build) to `electron`'s [gui directory](./electron/gui)
+
+- `npm run build` - React's script; builds .html & .ts files in production mode
+- `npm run build_core` - compiles Electrons' TypeScript files into build directory
+- `npm run build_core-watch` - compiles Electrons' TypeScript files and listens for changes
+- `npm run electron-builder` - builds an app; check [Build from source](#build-from-source) section for step-by-step
+  guide
+- `npm run electron-dev` - starts Electron in development mode; by default, app will try to load GUI
+  from `http://localhost:3000`, so make sure to start React beforehand
+- `npm run start` - React's script; starts React's development server and listens for changes in files
