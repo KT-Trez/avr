@@ -1,9 +1,7 @@
-// todo: fix imports
 import fs from 'fs';
 import {parentPort, workerData} from 'worker_threads';
 import {YT_DL} from '../../typings';
 import {FFmpegProgress} from '../../typings/interfaces-core';
-import WorkerMessage = YT_DL.Core.Workers.WorkerMessage;
 
 
 const ffmpeg = require('fluent-ffmpeg');
@@ -15,7 +13,7 @@ ffmpeg.setFfprobePath(ffProbe.path);
 
 
 const sendToMainProcess = (message: string, ...data: any[]) => {
-	const messageData: WorkerMessage = {
+	const messageData: YT_DL.Core.Workers.Message = {
 		details: data,
 		type: message
 	};
@@ -57,6 +55,6 @@ const mereAudioWithVideo = (recordingPaths: string[], savePath: string) => {
 			process.exit(0);
 		})
 		.save(savePath);
-}
+};
 
 mereAudioWithVideo(workerData.recordingPaths, workerData.savePath);

@@ -78,10 +78,10 @@ function Downloads() {
 				<Table size={'small'} stickyHeader>
 					<TableHead>
 						<TableRow>
-							<TableCell>Typ</TableCell>
-							<TableCell>Nazwa</TableCell>
-							<TableCell>Utworzono</TableCell>
-							<TableCell>Rozmiar</TableCell>
+							<TableCell>Type</TableCell>
+							<TableCell>Name</TableCell>
+							<TableCell>Created at</TableCell>
+							<TableCell>Size</TableCell>
 							<TableCell/>
 						</TableRow>
 					</TableHead>

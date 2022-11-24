@@ -8,10 +8,10 @@ import WebPreferences = Electron.WebPreferences;
 
 
 const options: CustomBrowserWindowOptions = {
-	height: 600,
+	height: 500,
 	minHeight: 600,
 	minWidth: 900,
-	width: 900
+	width: 1000
 };
 
 const win = new CustomBrowserWindow(options);

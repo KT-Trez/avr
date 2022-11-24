@@ -18,6 +18,12 @@ const mountListeners = () => {
 
 		Messenger.emitter.dispatchEvent(customEvent);
 	});
+
+	window.coreAPI.queueUpdate(() => {
+		const customEvent = new CustomEvent<YT_DL.GUI.Notification>('queue:update');
+
+		Messenger.emitter.dispatchEvent(customEvent);
+	});
 };
 
 export {

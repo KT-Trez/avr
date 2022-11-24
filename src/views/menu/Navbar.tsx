@@ -27,7 +27,7 @@ export default function Navbar() {
 				navigate('/tabs/downloaded');
 				break;
 		}
-	}, [activeTab]);
+	}, [activeTab, navigate]);
 
 	return (
 		<>

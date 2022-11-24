@@ -1,5 +1,4 @@
 import {IpcMainEvent, IpcMainInvokeEvent} from 'electron';
-import {videoFormat} from 'ytdl-core';
 import {Extensions} from './types';
 
 
@@ -13,7 +12,7 @@ export interface FFmpegProgress {
 }
 
 export interface IpcMainHandler {
-	execute: (event: (IpcMainEvent | IpcMainInvokeEvent), ...args: any[]) => Promise<void | any> | void;
+	execute: (event: (IpcMainEvent | IpcMainInvokeEvent), ...args: any[]) => Promise<void | any> | void | any;
 	name: string;
 	type: 'on' | 'once' | 'handle';
 }
@@ -24,20 +23,4 @@ export interface RecordingMetadata {
 	recordingExtension: Extensions;
 	recordingID: string;
 	videoQuality: string;
-}
-
-export interface DownloadWorkerData {
-	recordingFormat: videoFormat;
-	recordingMetadata: RecordingMetadata;
-	recordingURL: string;
-}
-
-export interface MergeWorkerData {
-	recordingPaths: string[];
-	savePath: string;
-}
-
-export interface WorkerMessage {
-	details: any[];
-	type: string;
 }
