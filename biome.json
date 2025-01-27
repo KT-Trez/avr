@@ -33,7 +33,8 @@
       },
       "correctness": {
         "all": true,
-        "noNodejsModules": "off"
+        "noNodejsModules": "off",
+        "noUndeclaredDependencies": "off"
       },
       "performance": {
         "all": true

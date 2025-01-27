@@ -1,17 +1,17 @@
 export enum NotificationSeverity {
-	Error = 'error',
-	Info = 'info',
-	Success = 'success',
-	Warning = 'warning'
+  Error = 'error',
+  Info = 'info',
+  Success = 'success',
+  Warning = 'warning',
 }
 
 export enum ProgressAction {
-	Download,
-	Merge
+  Download = 0,
+  Merge = 1,
 }
 
 export enum ProgressType {
-	Audio,
-	AudioAndVideo,
-	Video
+  Audio = 0,
+  AudioAndVideo = 1,
+  Video = 2,
 }

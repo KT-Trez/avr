@@ -37,9 +37,7 @@ export const SearchPage = () => {
           isLoading={isLoading}
       >
         <ContentContainer hasContent={media.length !== 0} message='No items found' sx={{ textAlign: 'center' }}>
-          <Stack>
-            {/*{media.map(media => <VideoCard key={media.id} video={media}/>)}*/}
-          </Stack>
+          <Stack>{/*{media.map(media => <VideoCard key={media.id} video={media}/>)}*/}</Stack>
         </ContentContainer>
       </PageContainer>
   );

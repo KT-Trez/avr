@@ -1,5 +1,3 @@
 export const QueuePage = () => {
-  return (
-      <div>Queue works!</div>
-  );
+  return <div>Queue works!</div>;
 };

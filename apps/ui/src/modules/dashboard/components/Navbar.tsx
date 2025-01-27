@@ -24,7 +24,6 @@ export const Navbar = () => {
   }, [activeTab, navigate]);
 
   return (
-
       <Tabs onChange={(_, value) => setActiveTab(value)} value={activeTab} variant='fullWidth'>
         <Tab icon={<SearchIcon/>} iconPosition='end' label='Search'/>
         <Tab icon={<FormatListBulletedIcon/>} iconPosition='end' label='Queue'/>

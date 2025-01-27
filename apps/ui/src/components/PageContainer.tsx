@@ -5,7 +5,7 @@ type PageContainerProps = {
   HeaderElement?: ReactElement;
   children: ReactNode;
   isLoading?: boolean;
-}
+};
 
 export const PageContainer = ({ HeaderElement, children, isLoading }: PageContainerProps) => {
   return (

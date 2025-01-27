@@ -5,8 +5,8 @@ type ContentContainerProps = {
   children: ReactNode;
   hasContent: boolean;
   message?: string;
-  sx?: SxProps<Theme>
-}
+  sx?: SxProps<Theme>;
+};
 
 export const ContentContainer = ({ children, hasContent, message = 'N / A', sx }: ContentContainerProps) => {
   if (hasContent) {

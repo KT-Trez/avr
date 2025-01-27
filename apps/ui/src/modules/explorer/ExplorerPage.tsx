@@ -1,5 +1,3 @@
 export const ExplorerPage = () => {
-  return (
-      <div>Explorer works!</div>
-  );
+  return <div>Explorer works!</div>;
 };
