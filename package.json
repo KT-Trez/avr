@@ -6,102 +6,33 @@
   },
   "bugs": {
     "email": "kt.bugs@onet.pl",
-    "url": "https://github.com/KT-Trez/g-av/issues"
+    "url": "https://github.com/KT-Trez/avr/issues"
   },
-  "build": {
-    "appId": "pl.org.was.g-av",
-    "artifactName": "YouTube-Downloader_${version}_${os}_${arch}.${ext}",
-    "asar": false,
-    "copyright": "Copyright © 2022 ${author}",
-    "extraMetadata": {
-      "main": "build/src_core/main.js"
-    },
-    "files": [
-      "build"
-    ],
-    "linux": {
-      "category": "",
-      "icon": "public/icons/logo.png",
-      "synopsis": "An app that downloads audio and/or videos from YouTube.",
-      "target": [
-        "apk",
-        "deb",
-        "snap"
-      ]
-    },
-    "nsis": {
-      "allowToChangeInstallationDirectory": true,
-      "artifactName": "YouTube-Downloader_Installer_${version}_${os}_${arch}.${ext}",
-      "deleteAppDataOnUninstall": true,
-      "license": "LICENSE",
-      "menuCategory": "KT-Trez",
-      "oneClick": false,
-      "perMachine": true
-    },
-    "productName": "YouTube Downloader",
-    "win": {
-      "icon": "public/icons/logo.png",
-      "target": [
-        "7z",
-        "msi",
-        "nsis",
-        "portable",
-        "zip"
-      ]
-    }
-  },
-  "config": {
-    "default_origin": "http://localhost:3000/"
-  },
-  "dependencies": {
-    "dotenv": "^16.4.7",
-    "ffmpeg-static": "^5.2.0",
-    "ffprobe-static": "^3.1.0",
-    "fluent-ffmpeg": "^2.1.3",
-    "yt-search": "2.12.1",
-    "ytdl-core": "^4.11.5"
-  },
-  "description": "Download your favorite music and videos from YouTube with YouTube Downloader.",
+  "description": "AudioVideo Ripper - Download your favorite music and videos from YouTube with YouTube Downloader.",
   "devDependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@fontsource/roboto": "^5.1.1",
-    "@mui/icons-material": "^6.4.1",
-    "@mui/material": "^6.4.1",
-    "@types/ffmpeg-static": "^3.0.3",
-    "@types/fluent-ffmpeg": "^2.1.27",
-    "@types/node": "^22.10.10",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "@types/yt-search": "^2.10.3",
-    "electron": "^34.0.1",
-    "electron-builder": "^25.1.8",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^7.1.3",
+    "@tsconfig/recommended": "^1.0.8",
     "typescript": "^5.7.3"
   },
-  "homepage": ".",
   "license": "Beerware",
-  "main": "build/src_core/main.js",
-  "name": "youtube-downloader",
+  "name": "@avr/main",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "github:KT-Trez/g-av"
+    "url": "github:KT-Trez/avr"
   },
   "scripts": {
-    "build": "react-scripts build",
-    "build_core": "tsc -p tsconfig.core.json",
-    "build_core-watch": "tsc -w -p tsconfig.core.json",
-    "eject": "react-scripts eject",
-    "electron-builder": "electron-builder",
-    "electron-dev": "electron --trace-warnings .",
-    "preelectron-pack": "npm run-script build",
-    "postinstall": "electron-builder install-app-deps",
-    "start": "react-scripts start",
-    "test": "react-scripts test"
+    "build:electron": "npm run build --workspace=apps/electron",
+    "build:ui": "npm run build --workspace=apps/ui",
+    "dev:electron": "npm run dev --workspace=apps/electron",
+    "dev:ui": "npm run dev --workspace=apps/ui",
+    "preview:ui": "npm run preview --workspace=apps/ui"
   },
-  "type": "commonjs",
-  "version": "1.1.0"
+  "type": "module",
+  "version": "1.1.0",
+  "workspaces": [
+    "apps/electron",
+    "apps/ui",
+    "libs/types",
+    "libs/utils"
+  ]
 }

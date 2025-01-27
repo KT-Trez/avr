@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "@tsconfig/node22": "22.0.0"
+  },
+  "name": "utils",
+  "scripts": {
+  },
+  "type": "module",
+  "version": "1.0.0"
+}

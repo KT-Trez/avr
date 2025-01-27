@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "../../tsconfig.base.json",
+    "@tsconfig/node22/tsconfig.json"
+  ],
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "baseUrl": "./src",
+    "esModuleInterop": true
+  }
+}
