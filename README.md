@@ -1,8 +1,12 @@
 # AudioVideo Ripper
+
 An Electron-based application designed to facilitate video downloads from [YouTube](https://www.youtube.com/).
 
 ## Download  
+
 To download the app, visit the [releases](https://github.com/KT-Trez/YouTube-Downloader/releases) page and choose the appropriate installer.  
+
+## Notes
 
 > [!WARNING]  
 > The `Advanced download` feature utilizes [FFmpeg](https://ffmpeg.org/) to merge audio and video, a process that is CPU-intensive.  
