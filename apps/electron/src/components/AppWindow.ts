@@ -1,5 +1,6 @@
-import path from 'path';
-import { BrowserWindow, type BrowserWindowConstructorOptions, app } from 'electron';
+import { app, BrowserWindow, type BrowserWindowConstructorOptions, ipcMain } from 'electron';
+import { openDownloadsDir } from '../electronAPI/modules/openDownloadsDir.js';
+import { readDownloadsDir } from '../electronAPI/modules/readDownloadsDir.js';
 
 export class AppWindow {
   win: BrowserWindow | undefined;
@@ -21,9 +22,14 @@ export class AppWindow {
       }
 
     if (app.isPackaged) {
-      this.win.loadFile(path.resolve(__dirname, '../../' + (app.isPackaged ? '' : 'build') + '/index.html'));
+      // this.win.loadFile(path.resolve(__dirname, '../../' + (app.isPackaged ? '' : 'build') + '/index.html'));
     } else {
       this.win.loadURL(process.env.NODE_GUI_ORIGIN ?? process.env.npm_package_config_default_origin!);
     }
+  }
+
+  initEvents() {
+    ipcMain.handle('read:downloadsDir', readDownloadsDir);
+    ipcMain.on('open:downloadsDir', openDownloadsDir);
   }
 }

@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { app } from 'electron';
-import { AppWindow } from './components/AppWindow.ts';
+import path from 'path';
+import { AppWindow } from './components/AppWindow.js';
 
 app.on('ready', () => {
   const win = new AppWindow({
@@ -14,10 +15,12 @@ app.on('ready', () => {
     width: 1000,
     webPreferences: {
       devTools: !app.isPackaged,
-      // preload: path.join(__dirname, 'preload', 'main_preload.js'),
+      preload: path.resolve(path.join('src', 'electronAPI', 'preload.mjs')),
+      sandbox: false,
       webSecurity: !app.isPackaged,
     },
   });
 
   win.initContent();
+  win.initEvents();
 });

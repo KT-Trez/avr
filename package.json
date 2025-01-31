@@ -24,10 +24,12 @@
   "scripts": {
     "build:electron": "npm run build --workspace=apps/electron",
     "build:ui": "npm run build --workspace=apps/ui",
+    "build:dev:electron": "npm run build:dev --workspace=apps/electron",
     "dev:electron": "npm run dev --workspace=apps/electron",
     "dev:ui": "npm run dev --workspace=apps/ui",
     "lint": "biome check",
     "lint:fix": "biome check --write",
+    "package:electron": "npm run package --workspace=apps/electron",
     "preview:ui": "npm run preview --workspace=apps/ui"
   },
   "type": "module",

@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "../../tsconfig.base.json",
-    "@tsconfig/node22/tsconfig.json"
-  ],
+  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./src"
   }
