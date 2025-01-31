@@ -1,6 +1,6 @@
-import type { Dirent } from 'node:fs';
+import type { FileInfo } from './fileInfo.js';
 
 export type ElectronAPI = {
   openDownloadsDir: () => void;
-  readDownloadsDir: () => Promise<Dirent[]>;
+  readDownloadsDir: () => Promise<FileInfo[]>;
 };

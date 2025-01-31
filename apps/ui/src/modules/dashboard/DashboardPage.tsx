@@ -7,7 +7,6 @@ export const DashboardPage = () => {
       <>
         <MainHeader/>
         <Navbar/>
-
         <Outlet/>
       </>
   );

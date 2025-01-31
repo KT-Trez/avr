@@ -16,17 +16,6 @@ export interface QueueEntryMetadata {
   videoProgress: number;
 }
 
-export interface FileInfo {
-  created: Date;
-  media: 'mp3' | 'mp4' | 'wav';
-  modified: Date;
-  name: string;
-  size: {
-    unit: 'B' | 'KB' | 'MB' | 'GB' | 'TB';
-    value: number;
-  };
-}
-
 export interface RecordingFormat {
   approxDurationMs: string;
   audioBitrate: number;

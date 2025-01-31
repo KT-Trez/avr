@@ -4,6 +4,8 @@
   },
   "name": "types",
   "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
   },
   "type": "module",
   "version": "1.0.0"

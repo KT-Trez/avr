@@ -27,7 +27,7 @@ export const useMediaSearchFetch = (searchPhrase: string) => {
     if (!isLoading && searchPhrase) {
       fetchMedia(searchPhrase).catch(noop);
     }
-  }, [searchPhrase]);
+  }, [fetchMedia, isLoading, searchPhrase]);
 
   return {
     isError,

@@ -20,6 +20,9 @@ export const Navbar = () => {
       case 2:
         navigate('/explorer');
         break;
+      default:
+        navigate('/');
+        break;
     }
   }, [activeTab, navigate]);
 

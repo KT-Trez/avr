@@ -1,10 +1,10 @@
-import type { Dirent } from 'node:fs';
 import { useCallback, useEffect, useState } from 'react';
+import type { FileInfo } from 'types/src/fileInfo.ts';
 import { noop } from 'utils/src/noop.ts';
 
 export const useDownloadsDirFetch = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [dirContents, setDirContents] = useState<Dirent[]>([]);
+  const [dirContents, setDirContents] = useState<FileInfo[]>([]);
 
   const fetchDownloadsDir = useCallback(async () => {
     setIsLoading(true);
