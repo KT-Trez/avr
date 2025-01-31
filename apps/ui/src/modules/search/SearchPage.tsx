@@ -1,5 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, InputAdornment, Stack, TextField } from '@mui/material';
+import { InputAdornment, Stack, TextField } from '@mui/material';
 import { useState } from 'react';
 import { ContentContainer } from '../../components/ContentContainer.tsx';
 import { PageContainer } from '../../components/PageContainer.tsx';
@@ -12,31 +12,29 @@ export const SearchPage = () => {
   return (
       <PageContainer
           HeaderElement={
-            <Box paddingBlock={2}>
-              <TextField
-                  disabled={isLoading}
-                  label='Search'
-                  onChange={event => setSearchPhrase(event.target.value)}
-                  placeholder='ex.: never gonna give you up'
-                  slotProps={{
-                    input: {
-                      endAdornment: (
-                          <InputAdornment position='end'>
-                            <SearchIcon/>
-                          </InputAdornment>
-                      ),
-                    },
-                    inputLabel: {
-                      shrink: true,
-                    },
-                  }}
-                  value={searchPhrase}
-              />
-            </Box>
+            <TextField
+                disabled={isLoading}
+                label='Search'
+                onChange={event => setSearchPhrase(event.target.value)}
+                placeholder='ex.: never gonna give you up'
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                        <InputAdornment position='end'>
+                          <SearchIcon/>
+                        </InputAdornment>
+                    ),
+                  },
+                  inputLabel: {
+                    shrink: true,
+                  },
+                }}
+                value={searchPhrase}
+            />
           }
           isLoading={isLoading}
       >
-        <ContentContainer hasContent={media.length !== 0} message='No items found' sx={{ textAlign: 'center' }}>
+        <ContentContainer hasContent={media.length !== 0} message='No items found'>
           <Stack>{/*{media.map(media => <VideoCard key={media.id} video={media}/>)}*/}</Stack>
         </ContentContainer>
       </PageContainer>
