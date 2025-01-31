@@ -4,13 +4,13 @@ import { IconButton, Paper, Stack, Typography } from '@mui/material';
 import type { FileInfo } from 'types/src/fileInfo.ts';
 import { formatDate } from 'utils/src/formatDate.ts';
 
-type FileProps = {
+type FileCardProps = {
   info: FileInfo;
   onOpen: (uid: string) => void;
   onRemove: (uid: string) => void;
 };
 
-export const File = ({ info, onOpen, onRemove }: FileProps) => {
+export const FileCard = ({ info, onOpen, onRemove }: FileCardProps) => {
   const formattedCreatedAt = formatDate(info.createdAt);
   const formattedModifiedAt = formatDate(info.modifiedAt);
   const sizeMB = (info.size / 1000).toFixed(1);

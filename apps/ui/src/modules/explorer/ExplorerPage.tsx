@@ -4,7 +4,7 @@ import { IconButton, Stack, Typography } from '@mui/material';
 import { useCallback } from 'react';
 import { ContentContainer } from '../../components/ContentContainer.tsx';
 import { PageContainer } from '../../components/PageContainer.tsx';
-import { File } from './components/File.tsx';
+import { FileCard } from './components/FileCard.tsx';
 import { useDownloadsDirFetch } from './hooks/useDownloadsDirFetch.ts';
 
 export const ExplorerPage = () => {
@@ -35,7 +35,7 @@ export const ExplorerPage = () => {
         <ContentContainer hasContent={dirContents.length > 0} message='No files'>
           <Stack gap={1}>
             {dirContents.map(file => (
-                <File info={file} key={file.uid} onOpen={handleOpen} onRemove={handleRemove}/>
+                <FileCard info={file} key={file.uid} onOpen={handleOpen} onRemove={handleRemove}/>
             ))}
           </Stack>
         </ContentContainer>

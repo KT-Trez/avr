@@ -1,6 +1,7 @@
 import { app, BrowserWindow, type BrowserWindowConstructorOptions, ipcMain } from 'electron';
 import { openDownloadsDir } from '../electronAPI/modules/openDownloadsDir.js';
 import { readDownloadsDir } from '../electronAPI/modules/readDownloadsDir.js';
+import { searchMedia } from '../electronAPI/modules/searchMedia.js';
 
 export class AppWindow {
   win: BrowserWindow | undefined;
@@ -30,6 +31,7 @@ export class AppWindow {
 
   initEvents() {
     ipcMain.handle('read:downloadsDir', readDownloadsDir);
+    ipcMain.handle('search:media', searchMedia);
     ipcMain.on('open:downloadsDir', openDownloadsDir);
   }
 }

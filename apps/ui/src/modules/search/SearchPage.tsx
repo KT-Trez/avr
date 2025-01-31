@@ -3,6 +3,7 @@ import { InputAdornment, Stack, TextField } from '@mui/material';
 import { useState } from 'react';
 import { ContentContainer } from '../../components/ContentContainer.tsx';
 import { PageContainer } from '../../components/PageContainer.tsx';
+import { MediaCard } from './components/MediaCard.tsx';
 import { useMediaSearchFetch } from './hooks/useMediaSearchFetch.ts';
 
 export const SearchPage = () => {
@@ -35,7 +36,11 @@ export const SearchPage = () => {
           isLoading={isLoading}
       >
         <ContentContainer hasContent={media.length > 0} message='No items found'>
-          <Stack>{/*{media.map(media => <VideoCard key={media.id} video={media}/>)}*/}</Stack>
+          <Stack gap={1}>
+            {media.map(medium => (
+                <MediaCard info={medium} key={medium.id}/>
+            ))}
+          </Stack>
         </ContentContainer>
       </PageContainer>
   );

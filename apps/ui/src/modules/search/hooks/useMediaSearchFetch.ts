@@ -1,36 +1,34 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Media } from 'types/src/media.ts';
 import { noop } from 'utils/src/noop.ts';
+import { useDebounce } from '../../../hooks/useDebounce.ts';
 
 export const useMediaSearchFetch = (searchPhrase: string) => {
-  const [isError, setIsError] = useState<boolean>(false);
+  const debouncedSearchPhrase = useDebounce(searchPhrase);
+  const lastSearchPhrase = useRef<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [media, setMedia] = useState<Media[]>([]);
 
   const fetchMedia = useCallback(async (searchPhrase: string) => {
-    if (isLoading) {
-      return;
-    }
+    setIsLoading(true);
+    lastSearchPhrase.current = searchPhrase;
 
     try {
-      setIsLoading(true);
-
-      // setMedia(await window.coreAPI.searchVideos(keywords))
+      setMedia(await window.electronAPI.searchMedia(0, searchPhrase));
     } catch (error) {
-      setIsError(true);
+      // todo: show notification about the error
     } finally {
       setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    if (!isLoading && searchPhrase) {
-      fetchMedia(searchPhrase).catch(noop);
+    if (!isLoading && debouncedSearchPhrase !== lastSearchPhrase.current) {
+      fetchMedia(debouncedSearchPhrase).catch(noop);
     }
-  }, [fetchMedia, isLoading, searchPhrase]);
+  }, [debouncedSearchPhrase, fetchMedia, isLoading]);
 
   return {
-    isError,
     isLoading,
     media,
   };
