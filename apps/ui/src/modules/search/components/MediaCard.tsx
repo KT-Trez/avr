@@ -1,4 +1,17 @@
-import { Box, Card, CardContent, CardHeader, CardMedia, Link, Stack, Typography, useTheme } from '@mui/material';
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  IconButton,
+  Link,
+  Stack,
+  Typography,
+  useTheme,
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import type { Media } from 'types/src/media.ts';
 import { LabeledValue } from '../../../components/LabeledValue.tsx';
 
@@ -7,14 +20,22 @@ type MediaCardProps = {
 };
 
 export const MediaCard = ({ info }: MediaCardProps) => {
+  const navigate = useNavigate();
   const { spacing } = useTheme();
 
   const formattedViews = Intl.NumberFormat('en-GB', { notation: 'compact' }).format(info.views);
-  // todo: add download dialog
 
   return (
       <Card>
-        <CardHeader subheader={info.published} title={info.title}/>
+        <CardHeader
+            action={
+              <IconButton onClick={() => navigate(`/search/${info.id}`, { state: info.url })}>
+                <DownloadForOfflineIcon/>
+              </IconButton>
+            }
+            subheader={info.published}
+            title={info.title}
+        />
 
         <Stack direction='row'>
           <Box flex={1} sx={{ position: 'relative' }}>

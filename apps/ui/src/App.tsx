@@ -1,5 +1,7 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { RouterProvider } from 'react-router-dom';
+import { ConfirmationDialogProvider } from './components/ConfirmationDialog/ConfirmationDialogContext.tsx';
+import { SnackbarProvider } from './components/Snackbar/SnackbarContext.tsx';
 import { theme } from './constants/theme.ts';
 import { router } from './routes/router.tsx';
 
@@ -20,10 +22,14 @@ export const App = () => {
 
   return (
       <ThemeProvider theme={theme}>
-        <CssBaseline/>
-        <RouterProvider router={router}/>
+        <SnackbarProvider>
+          <ConfirmationDialogProvider>
+            <CssBaseline/>
+            <RouterProvider router={router}/>
 
-        {/*<Notifier notification={notification}/>*/}
+            {/*<Notifier notification={notification}/>*/}
+          </ConfirmationDialogProvider>
+        </SnackbarProvider>
       </ThemeProvider>
   );
 };

@@ -1,7 +1,9 @@
 import { app, BrowserWindow, type BrowserWindowConstructorOptions, ipcMain } from 'electron';
+import { downloadMedia } from '../electronAPI/modules/downloadMedia.js';
 import { openDownloadsDir } from '../electronAPI/modules/openDownloadsDir.js';
 import { readDownloadsDir } from '../electronAPI/modules/readDownloadsDir.js';
 import { searchMedia } from '../electronAPI/modules/searchMedia.js';
+import { searchMediaFormats } from '../electronAPI/modules/searchMediaFormats.js';
 
 export class AppWindow {
   win: BrowserWindow | undefined;
@@ -32,6 +34,8 @@ export class AppWindow {
   initEvents() {
     ipcMain.handle('read:downloadsDir', readDownloadsDir);
     ipcMain.handle('search:media', searchMedia);
+    ipcMain.handle('search:mediaFormats', searchMediaFormats);
+    ipcMain.on('download:media', downloadMedia);
     ipcMain.on('open:downloadsDir', openDownloadsDir);
   }
 }

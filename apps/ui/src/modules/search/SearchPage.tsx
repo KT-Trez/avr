@@ -36,7 +36,7 @@ export const SearchPage = () => {
           isLoading={isLoading}
       >
         <ContentContainer hasContent={media.length > 0} message='No items found'>
-          <Stack gap={1}>
+          <Stack gap={2}>
             {media.map(medium => (
                 <MediaCard info={medium} key={medium.id}/>
             ))}
